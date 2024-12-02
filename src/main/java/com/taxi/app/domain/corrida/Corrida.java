@@ -10,16 +10,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.DecimalMin;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
 @NoArgsConstructor  // Gera um construtor sem argumentos
 @AllArgsConstructor  // Gera um construtor com todos os argumentos
 @Builder  // Gera o padrão de construção com o builder
+@Getter
+@Setter
 public class Corrida {
 
     @Id
@@ -41,14 +40,6 @@ public class Corrida {
     @DecimalMin(value = "0.0", inclusive = false, message = "Preço deve ser maior que zero")
     private Double preco;  // Preço da corrida
 
-    @Column(length = 20)
-    private Status status;  // Status da corrida
+    private StatusCorrida status;  // Status da corrida
 
-    // Enum para o status da corrida
-    public enum Status {
-        PENDENTE,
-        EM_ANDAMENTO,
-        CONCLUIDA,
-        CANCELADA
-    }
 }

@@ -1,10 +1,6 @@
 package com.taxi.app.domain.driver;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;  // Importação para a anotação @Column
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -15,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Table(name = "drivers")  // Especifica o nome da tabela
 @NoArgsConstructor  // Gera um construtor sem argumentos
 @AllArgsConstructor  // Gera um construtor com todos os argumentos
 @Builder  // Gera o padrão de construção com o builder
@@ -32,7 +29,6 @@ public class Driver {
     @Column(unique = true)  // Garante que o email seja único no banco de dados
     private String email;
 
-    @Size(min = 8, max = 15)
     @NotBlank
     private String phone;
 
@@ -50,6 +46,8 @@ public class Driver {
     private String placa;
 
     private Boolean ativo;
+
+    private StatusDriver status;
 
     public void excluir() {
         this.ativo = false;

@@ -2,6 +2,13 @@ package com.taxi.app.controller;
 
 import com.taxi.app.domain.corrida.Corrida;
 import com.taxi.app.domain.corrida.CorridaRepository;
+import com.taxi.app.domain.corrida.CorridaRequestDTO;
+import com.taxi.app.domain.corrida.StatusCorrida;
+import com.taxi.app.domain.driver.Driver;
+import com.taxi.app.domain.driver.DriverRepository;
+import com.taxi.app.domain.driver.StatusDriver;
+import com.taxi.app.domain.user.User;
+import com.taxi.app.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +22,16 @@ public class CorridaController {
     @Autowired
     private CorridaRepository corridaRepository;
 
-    // Criar uma nova corrida
-    @PostMapping
-    public ResponseEntity<Corrida> createCorrida(@RequestBody Corrida corrida) {
-        Corrida savedCorrida = corridaRepository.save(corrida);
-        return ResponseEntity.ok(savedCorrida);
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private DriverRepository driverRepository;
+
+
+    private Driver escolherMotoristaDisponivel() {
+        return driverRepository.findFirstByStatus(StatusDriver.DISPONIVEL)
+                .orElseThrow(() -> new RuntimeException("Nenhum motorista disponível"));
     }
 
     // Listar todas as corridas
@@ -29,12 +41,6 @@ public class CorridaController {
         return ResponseEntity.ok(corridas);
     }
 
-    // Buscar uma corrida por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Corrida> getCorridaById(@PathVariable Long id) {
-        Optional<Corrida> corrida = corridaRepository.findById(id);
-        return corrida.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
 
     // Deletar uma corrida
     @DeleteMapping("/{id}")

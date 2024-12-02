@@ -15,17 +15,18 @@ public class DriverController {
     @Autowired
     private DriverRepository driverRepository;
 
+    @GetMapping
+    public ResponseEntity<List<Driver>> getAllDrivers() {
+        List<Driver> drivers = driverRepository.findAll();
+        return ResponseEntity.ok(drivers);
+    }
+
     @PostMapping
     public ResponseEntity<Driver> createDriver(@RequestBody Driver driver) {
         Driver savedDriver = driverRepository.save(driver);
         return ResponseEntity.ok(savedDriver);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Driver>> getAllDrivers() {
-        List<Driver> drivers = driverRepository.findAll();
-        return ResponseEntity.ok(drivers);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Driver> getDriverById(@PathVariable Long id) {

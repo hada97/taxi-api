@@ -15,7 +15,7 @@ public class SpringDocConfigurations {
                 .info(new Info()
                         .title("API Spring Taxi")
                         .version("v1")
-                        .description("[GitHub](https://github.com/hada97/taxi-api\n\n"
+                        .description("[GitHub](https://github.com/hada97/taxi-api/)\n\n"
                         ));
     }
 }
