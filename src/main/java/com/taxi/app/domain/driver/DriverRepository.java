@@ -7,18 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface DriverRepository extends JpaRepository<Driver, Long> {
 
+    // Buscar motoristas ativos com paginação
     Page<Driver> findAllByAtivoTrue(Pageable paginacao);
 
+    // Consulta personalizada para obter o status 'ativo' de um motorista pelo id
     @Query("""
             select m.ativo
-            from Drive m
-            where
-            m.id = :id
+            from Driver m
+            where m.id = :id
             """)
     Boolean findAtivoById(Long id);
-
-
-
-
 
 }
