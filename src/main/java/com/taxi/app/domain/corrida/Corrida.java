@@ -7,16 +7,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.DecimalMin;
 import lombok.*;
 
 @Entity
 @Data
-@NoArgsConstructor  // Gera um construtor sem argumentos
-@AllArgsConstructor  // Gera um construtor com todos os argumentos
-@Builder  // Gera o padrão de construção com o builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class Corrida {
@@ -37,9 +36,27 @@ public class Corrida {
     @NotBlank
     private String destino;  // Local de destino da corrida
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "Preço deve ser maior que zero")
-    private Double preco;  // Preço da corrida
+    @DecimalMin(value = "5.0")
+    private Double preco;
 
-    private StatusCorrida status;  // Status da corrida
+    private StatusCorrida status = StatusCorrida.PENDENTE;
 
+    public Corrida(Object o, User user, Driver driver, String origem, String destino, double v, StatusCorrida statusCorrida) {
+    }
+
+    // Método para precificar a corrida
+    public void precificarCorrida() {
+
+        // Definindo preço base por quilômetro e por minuto (valores fictícios)
+        double precoBaseKm = 5.0; // Preço por quilômetro
+        double precoBaseMinuto = 2.0; // Preço por minuto
+        // Aqui estamos chamando uma função que simula o cálculo de distância e tempo.
+        double distanciaKm = calcularDistanciaKm(origem, destino); // Método que você pode definir para calcular a distância
+        // Calculando o preço da corrida
+        double precoCalculado = (distanciaKm * precoBaseKm);
+        // Aplicando um fator adicional, como um multiplicador para condições especiais (trânsito, horário, etc.)
+        precoCalculado = aplicarFatoresAdicionais(precoCalculado);
+        // Definindo o preço final da corrida
+        this.preco = precoCalculado;
+    }
 }

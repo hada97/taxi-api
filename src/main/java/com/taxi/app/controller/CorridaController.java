@@ -1,16 +1,15 @@
 package com.taxi.app.controller;
 
-import com.taxi.app.domain.corrida.Corrida;
-import com.taxi.app.domain.corrida.CorridaRepository;
-import com.taxi.app.domain.corrida.CorridaRequestDTO;
-import com.taxi.app.domain.corrida.StatusCorrida;
+import com.taxi.app.domain.corrida.*;
 import com.taxi.app.domain.driver.Driver;
 import com.taxi.app.domain.driver.DriverRepository;
 import com.taxi.app.domain.driver.StatusDriver;
 import com.taxi.app.domain.user.User;
 import com.taxi.app.domain.user.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,9 @@ public class CorridaController {
     @Autowired
     private DriverRepository driverRepository;
 
+    @Autowired
+    private SolicitarCorridas solicitarCorrida;
+
 
     private Driver escolherMotoristaDisponivel() {
         return driverRepository.findFirstByStatus(StatusDriver.DISPONIVEL)
@@ -39,6 +41,13 @@ public class CorridaController {
     public ResponseEntity<List<Corrida>> getAllCorridas() {
         List<Corrida> corridas = corridaRepository.findAll();
         return ResponseEntity.ok(corridas);
+    }
+
+    @PostMapping
+    @Transactional
+    public ResponseEntity agendar(@RequestBody @Valid DadosSolicitarCorridas dados) {
+        var dto = solicitarCorrida.marcar(dados);
+        return ResponseEntity.ok(dto);
     }
 
 
