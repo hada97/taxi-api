@@ -34,12 +34,12 @@ Para começar a utilizar esta API, siga os passos abaixo:
 
 1. **Clone o repositório**:
     ```bash
-    git clone
+    git clone https://github.com/hada97/taxi-api
     ```
 
 2. **Navegue até o diretório do projeto**:
     ```bash
-    cd 
+    cd taxi-api
     ```
 
 3. **Compile e execute o projeto**:

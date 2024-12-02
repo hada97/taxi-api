@@ -44,6 +44,7 @@ public class Driver {
     @NotBlank
     private String carro;
 
+    @Size(min = 7, max = 7)
     @NotBlank
     @Column(unique = true)
     private String placa;
