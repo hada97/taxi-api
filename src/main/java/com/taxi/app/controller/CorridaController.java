@@ -30,7 +30,6 @@ public class CorridaController {
     @Autowired
     private CorridaService service;
 
-
     @GetMapping
     public ResponseEntity<List<Corrida>> getAllCorridas() {
         List<Corrida> corridas = corridaRepository.findAll();
@@ -43,7 +42,6 @@ public class CorridaController {
         var dto = service.marcar(dados);
         return ResponseEntity.ok(dto);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCorrida(@PathVariable Long id) {
