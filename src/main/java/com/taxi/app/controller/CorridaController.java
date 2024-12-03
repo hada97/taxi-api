@@ -38,12 +38,13 @@ public class CorridaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity agendar(@RequestBody @Valid DadosSolicitarCorridas dados) {
+    public ResponseEntity marcar(@RequestBody @Valid DadosSolicitarCorridas dados) {
         var dto = service.marcar(dados);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteCorrida(@PathVariable Long id) {
         Optional<Corrida> corrida = corridaRepository.findById(id);
         if (corrida.isPresent()) {

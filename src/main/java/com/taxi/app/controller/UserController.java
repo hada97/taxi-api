@@ -5,6 +5,7 @@ import com.taxi.app.domain.user.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -24,13 +25,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    @Transactional
+    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
         User savedUser = userRepository.save(user);
         return ResponseEntity.ok(savedUser);
     }
 
-
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {

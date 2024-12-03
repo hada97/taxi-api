@@ -1,7 +1,9 @@
 // DadosSolicitarCorridas.java
 package com.taxi.app.domain.corrida;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 
 public record DadosSolicitarCorridas(
 
@@ -10,10 +12,10 @@ public record DadosSolicitarCorridas(
         @NotNull
         Long idUser, // ID do passageiro (obrigatório)
 
-        @NotNull
+        @NotBlank
         String origem, // Origem da corrida (obrigatório)
 
-        @NotNull
+        @NotBlank
         String destino, // Destino da corrida (obrigatório)
 
         StatusCorrida status) { // Status da corrida (opcional)

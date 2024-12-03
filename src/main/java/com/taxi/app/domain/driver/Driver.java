@@ -31,22 +31,18 @@ public class Driver {
     @NotBlank
     private String phone;
 
-    @Size(min = 9, max = 9)
+    @Size(min = 4, max = 9)
     @NotBlank
     @Column(unique = true)
     private String cnh;
 
-    @Size(min = 7, max = 7)
+    @Size(min = 5, max = 7)
     @NotBlank
     @Column(unique = true)
     private String placa;
 
     @Enumerated(EnumType.STRING)
     private StatusDriver status = StatusDriver.DISPONIVEL;
-
-    public void setStatus(StatusDriver status) {
-            this.status = status;
-    }
 
     public void desativar() {
         this.status = StatusDriver.INATIVO;

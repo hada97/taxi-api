@@ -14,6 +14,7 @@ import lombok.*;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
 @Setter
@@ -24,15 +25,15 @@ public class Corrida {
     private Long id;
 
     @ManyToOne
-    private User user;  // Relacionamento com o User (passageiro)
+    private User user;  // Relacionamento com o User
 
     @ManyToOne
-    private Driver motorista;  // Relacionamento com o Driver (motorista)
+    private Driver motorista;  // Relacionamento com o Driver
 
-    @NotBlank(message = "O campo origem não pode estar vazio")
+    @NotBlank
     private String origem;
 
-    @NotBlank(message = "O campo destino não pode estar vazio")
+    @NotBlank
     private String destino;
 
     @DecimalMin(value = "5.0")
@@ -40,7 +41,14 @@ public class Corrida {
 
     private StatusCorrida status = StatusCorrida.PENDENTE;
 
-    public Corrida(Object o, User user, Driver driver, String origem, String destino, double v, StatusCorrida statusCorrida) {
+    public Corrida(User user, Driver motorista, String origem, String destino, double preco, StatusCorrida status) {
+        this.user = user;
+        this.motorista = motorista;
+        this.origem = origem;
+        this.destino = destino;
+        this.preco = preco;
+        this.status = status != null ? status : StatusCorrida.PENDENTE;  // Atribui o status, se fornecido, caso contrário, define como PENDENTE
     }
+
 
 }
