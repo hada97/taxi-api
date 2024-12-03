@@ -28,15 +28,9 @@ public class CorridaController {
     private DriverRepository driverRepository;
 
     @Autowired
-    private SolicitarCorridas solicitarCorrida;
+    private CorridaService service;
 
 
-    private Driver escolherMotoristaDisponivel() {
-        return driverRepository.findFirstByStatus(StatusDriver.DISPONIVEL)
-                .orElseThrow(() -> new RuntimeException("Nenhum motorista disponível"));
-    }
-
-    // Listar todas as corridas
     @GetMapping
     public ResponseEntity<List<Corrida>> getAllCorridas() {
         List<Corrida> corridas = corridaRepository.findAll();
@@ -46,12 +40,11 @@ public class CorridaController {
     @PostMapping
     @Transactional
     public ResponseEntity agendar(@RequestBody @Valid DadosSolicitarCorridas dados) {
-        var dto = solicitarCorrida.marcar(dados);
+        var dto = service.marcar(dados);
         return ResponseEntity.ok(dto);
     }
 
 
-    // Deletar uma corrida
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCorrida(@PathVariable Long id) {
         Optional<Corrida> corrida = corridaRepository.findById(id);

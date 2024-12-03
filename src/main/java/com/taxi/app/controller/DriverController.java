@@ -2,7 +2,9 @@ package com.taxi.app.controller;
 
 import com.taxi.app.domain.driver.Driver;
 import com.taxi.app.domain.driver.DriverRepository;
+import com.taxi.app.domain.driver.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -15,10 +17,14 @@ public class DriverController {
     @Autowired
     private DriverRepository driverRepository;
 
-    @GetMapping
-    public ResponseEntity<List<Driver>> getAllDrivers() {
-        List<Driver> drivers = driverRepository.findAll();
-        return ResponseEntity.ok(drivers);
+    @Autowired
+    private DriverService service;
+
+    @GetMapping("/drivers/disponiveis")
+    public Page<Driver> getDriversDisponiveis(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return service.getDriversDisponiveis(page, size);
     }
 
     @PostMapping

@@ -8,7 +8,7 @@ public record DadosDetalharCorridas(
         String origem,
         String destino,
         Double preco,
-        StatusCorrida status,
+        StatusCorrida status
         ) {
 
     public DadosDetalharCorridas(Corrida corrida) {

@@ -51,11 +51,11 @@ public class Corrida {
         double precoBaseKm = 5.0; // Preço por quilômetro
         double precoBaseMinuto = 2.0; // Preço por minuto
         // Aqui estamos chamando uma função que simula o cálculo de distância e tempo.
-        double distanciaKm = calcularDistanciaKm(origem, destino); // Método que você pode definir para calcular a distância
+        //double distanciaKm = calcularDistanciaKm(origem, destino); // Método que você pode definir para calcular a distância
         // Calculando o preço da corrida
-        double precoCalculado = (distanciaKm * precoBaseKm);
+        double precoCalculado =  5;
         // Aplicando um fator adicional, como um multiplicador para condições especiais (trânsito, horário, etc.)
-        precoCalculado = aplicarFatoresAdicionais(precoCalculado);
+        //precoCalculado = aplicarFatoresAdicionais(precoCalculado);
         // Definindo o preço final da corrida
         this.preco = precoCalculado;
     }

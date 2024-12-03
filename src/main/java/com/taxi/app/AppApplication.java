@@ -12,5 +12,4 @@ public class AppApplication {
 		System.out.println("Serviços em execução");
 		System.out.println("====================");
 	}
-
 }
