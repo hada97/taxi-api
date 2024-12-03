@@ -45,7 +45,7 @@ body {
   background-color: #f1c40f;
   padding: 5px 0; /* Diminui a altura do container */
   text-align: center;
-  font-size: 0.85em;
+  font-size: 1em;
   margin-top: 10px; /* Diminui a distância para o container principal */
   margin-bottom: 0px; /* Distância do final da página */
   max-width: 1500px;
@@ -54,7 +54,7 @@ body {
 
 /* Container principal */
 .container {
-  background: #ffffff; /* Fundo branco para o container */
+  background: #000000; /* Fundo branco para o container */
   padding: 30px;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -86,6 +86,10 @@ h2 {
   font-size: 1.2em;
 }
 
+.form-container h2 {
+  color: #f1c40f;
+}
+
 /* Estilo dos formulários e botões */
 form {
   display: flex;
@@ -96,7 +100,7 @@ form {
 input,
 button {
   margin: 5px 0;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 15px;
   width: 80%; /* Ocupar toda a largura do container */
   box-sizing: border-box;
@@ -113,7 +117,7 @@ button {
 }
 
 button:hover {
-  background-color: #e0b90f; /* Amarelo mais escuro no hover */
+  background-color: #c9a60d; /* Amarelo mais escuro no hover */
 }
 
 /* Preloader (animação de carregamento) */
@@ -167,10 +171,10 @@ button:hover {
 
 /* Para inputs com fundo preto */
 input {
-  background-color: #333333; /* Fundo escuro para os inputs */
-  color: #ffffff; /* Texto branco nos inputs */
+  background-color: #ffffff; /* Fundo escuro para os inputs */
+  color: #000000; /* Texto branco nos inputs */
 }
 
 input::placeholder {
-  color: #ffffff; /* Placeholder branco */
+  color: #6d6d6d; /* Placeholder branco */
 }

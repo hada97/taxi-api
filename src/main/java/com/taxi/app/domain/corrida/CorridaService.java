@@ -23,6 +23,14 @@ public class CorridaService {
     private CorridaRepository corridaRepository;
 
     public DadosDetalharCorridas marcar(DadosSolicitarCorridas dados) {
+        // Verificação explícita de que os campos não estão vazios
+        if (dados.origem().isBlank()) {
+            throw new IllegalArgumentException("O campo 'origem' não pode estar vazio");
+        }
+        if (dados.destino().isBlank()) {
+            throw new IllegalArgumentException("O campo 'destino' não pode estar vazio");
+        }
+
         var user = userRepository.getReferenceById(dados.idUser());
         var driver = escolherDriver(dados);
         var corrida = new Corrida(
@@ -34,6 +42,8 @@ public class CorridaService {
                 0.0, // O preço pode ser calculado
                 dados.status() == StatusCorrida.PENDENTE ? StatusCorrida.EM_ANDAMENTO : dados.status() // Se for PENDENTE, altera para EM_ANDAMENTO
         );
+
+        //calcularPreco(dados.origem(), dados.destino());  // Calculando o preço da corrida
         corridaRepository.save(corrida);
         driver.setStatus(StatusDriver.OCUPADO);
         driverRepository.save(driver);
@@ -41,17 +51,26 @@ public class CorridaService {
     }
 
 
+
     private Driver escolherDriver(DadosSolicitarCorridas dados) {
         List<Driver> motoristasDisponiveis = driverRepository.findByStatus(StatusDriver.DISPONIVEL);
-
         if (motoristasDisponiveis.isEmpty()) {
             throw new RuntimeException("Não há motoristas disponíveis no momento.");
         }
-        // Escolher um motorista aleatório da lista de motoristas disponíveis
         Random random = new Random();
         int indiceAleatorio = random.nextInt(motoristasDisponiveis.size());
-
         return motoristasDisponiveis.get(indiceAleatorio);
     }
+
+    /*
+    private double calcularPreco(String origem, String destino) {
+        double precoBaseKm = 5.0;
+        double precoBaseMinuto = 2.0;
+        double distanciaKm = calcularDistanciaKm(origem, destino);
+        double tempoMinutos = calcularTempoEstimado(origem, destino);
+        double precoCalculado = (distanciaKm * precoBaseKm) + (tempoMinutos * precoBaseMinuto);
+        precoCalculado = aplicarFatoresAdicionais(precoCalculado);
+        return precoCalculado;
+    }*/
 
 }

@@ -14,7 +14,6 @@ import lombok.*;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Getter
 @Setter
@@ -30,11 +29,11 @@ public class Corrida {
     @ManyToOne
     private Driver motorista;  // Relacionamento com o Driver (motorista)
 
-    @NotBlank
-    private String origem;  // Local de origem da corrida
+    @NotBlank(message = "O campo origem não pode estar vazio")
+    private String origem;
 
-    @NotBlank
-    private String destino;  // Local de destino da corrida
+    @NotBlank(message = "O campo destino não pode estar vazio")
+    private String destino;
 
     @DecimalMin(value = "5.0")
     private Double preco;
@@ -44,19 +43,4 @@ public class Corrida {
     public Corrida(Object o, User user, Driver driver, String origem, String destino, double v, StatusCorrida statusCorrida) {
     }
 
-    // Método para precificar a corrida
-    public void precificarCorrida() {
-
-        // Definindo preço base por quilômetro e por minuto (valores fictícios)
-        double precoBaseKm = 5.0; // Preço por quilômetro
-        double precoBaseMinuto = 2.0; // Preço por minuto
-        // Aqui estamos chamando uma função que simula o cálculo de distância e tempo.
-        //double distanciaKm = calcularDistanciaKm(origem, destino); // Método que você pode definir para calcular a distância
-        // Calculando o preço da corrida
-        double precoCalculado =  5;
-        // Aplicando um fator adicional, como um multiplicador para condições especiais (trânsito, horário, etc.)
-        //precoCalculado = aplicarFatoresAdicionais(precoCalculado);
-        // Definindo o preço final da corrida
-        this.preco = precoCalculado;
-    }
 }

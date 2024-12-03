@@ -20,7 +20,7 @@ public class DriverController {
     @Autowired
     private DriverService service;
 
-    @GetMapping("/drivers/disponiveis")
+    @GetMapping("/disponiveis")
     public Page<Driver> getDriversDisponiveis(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
