@@ -1,118 +1,127 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerenciamento Corridas</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-<!-- Container principal -->
-<div class="container">
-  <div class="title-container">
-    <h1 onclick="recarregarPagina()" class="titlePg">77 Taxi</h1>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciamento Corridas</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="img-container">
+      <img src="tax.png" alt="Imagem de exemplo" />
+    </div>
 
-  <div class="content">
-    <div class="form-container">
-      <h2>Usuário</h2>
+    <!-- Container acima do principal -->
+    <div class="top-container">
+      <h2>77 Taxi</h2>
+      <p>Seja bem-vindo ao sistema de gerenciamento de corridas.</p>
+    </div>
 
-      <div id="UserList" class="resultList"></div>
+    <!-- Container principal -->
+    <div class="container">
+      <div class="content">
+        <div class="form-container">
+          <h2>Usuários</h2>
 
-      <button id="btnListarUser">Listar Usuários</button>
-      <button id="toggleUserForm">Cadastrar Usuário</button>
+          <div id="UserList" class="resultList"></div>
 
-      <div id="cadastroUserFormContainer" class="hidden">
-        <form id="cadastroUserForm">
-          <input type="text" id="nomeUser" placeholder="Nome" required />
-          <input type="email" id="emailUser" placeholder="Email" required />
-          <input
-                  type="text"
-                  id="telefoneUser"
-                  placeholder="Telefone"
-                  required
-          />
-          <button type="submit">Cadastrar</button>
-        </form>
+          <button id="btnListarUser">Listar Usuários</button>
+          <button id="toggleUserForm">Cadastrar Usuário</button>
+
+          <div id="cadastroUserFormContainer" class="hidden">
+            <form id="cadastroUserForm">
+              <input type="text" id="nomeUser" placeholder="Nome" required />
+              <input type="email" id="emailUser" placeholder="Email" required />
+              <input
+                type="text"
+                id="telefoneUser"
+                placeholder="Telefone"
+                required
+              />
+              <button type="submit">Cadastrar</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="form-container">
+          <h2>Motoristas</h2>
+          <div id="motoristaList" class="resultList"></div>
+          <button id="btnListarMotoristas">Listar Motoristas</button>
+          <button id="toggleMotoristaForm">Cadastrar Motorista</button>
+
+          <div id="cadastroMotoristaFormContainer" class="hidden">
+            <form id="cadastroMotoristaForm">
+              <input
+                type="text"
+                id="nomeMotorista"
+                placeholder="Nome"
+                required
+              />
+              <input
+                type="email"
+                id="emailMotorista"
+                placeholder="Email"
+                required
+              />
+              <input
+                type="text"
+                id="telefoneMotorista"
+                placeholder="Telefone"
+                required
+              />
+              <input type="text" id="cnhMotorista" placeholder="CNH" required />
+              <input
+                type="text"
+                id="placaMotorista"
+                placeholder="Placa"
+                required
+              />
+              <button type="submit">Cadastrar</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="form-container">
+          <h2>Corridas</h2>
+          <button id="toggleCorridaForm">Cadastrar Corrida</button>
+
+          <div id="cadastroCorridaFormContainer" class="hidden">
+            <form id="cadastroCorridaForm">
+              <input
+                type="text"
+                id="idUser"
+                placeholder="ID do Usuário"
+                required
+              />
+              <input
+                type="text"
+                id="origemCorrida"
+                placeholder="Origem"
+                required
+              />
+              <input
+                type="text"
+                id="destinoCorrida"
+                placeholder="Destino"
+                required
+              />
+              <button type="submit">Cadastrar Corrida</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="form-container">
-      <h2>Motoristas</h2>
-      <div id="motoristaList" class="resultList"></div>
-      <button id="btnListarMotoristas">Listar Motoristas</button>
-      <button id="toggleMotoristaForm">Cadastrar Motorista</button>
-
-      <div id="cadastroMotoristaFormContainer" class="hidden">
-        <form id="cadastroMotoristaForm">
-          <input
-                  type="text"
-                  id="nomeMotorista"
-                  placeholder="Nome"
-                  required
-          />
-          <input
-                  type="email"
-                  id="emailMotorista"
-                  placeholder="Email"
-                  required
-          />
-          <input
-                  type="text"
-                  id="telefoneMotorista"
-                  placeholder="Telefone"
-                  required
-          />
-          <input type="text" id="cnhMotorista" placeholder="CNH" required />
-          <input
-                  type="text"
-                  id="placaMotorista"
-                  placeholder="Placa"
-                  required
-          />
-
-          <button type="submit">Cadastrar</button>
-        </form>
-      </div>
+    <!-- Container abaixo do principal -->
+    <div class="bottom-container">
+      <p>© 2024 77 Taxi - Todos os direitos reservados.</p>
     </div>
 
-    <!-- Corrija o ID para uma classe -->
-    <div class="form-container">
-      <h2>Corridas</h2>
-      <button id="toggleCorridaForm">Cadastrar Corrida</button>
-
-      <div id="cadastroCorridaFormContainer" class="hidden">
-        <form id="cadastroCorridaForm">
-          <input
-                  type="text"
-                  id="idUser"
-                  placeholder="ID do Usuário"
-                  required
-          />
-          <input
-                  type="text"
-                  id="origemCorrida"
-                  placeholder="Origem"
-                  required
-          />
-          <input
-                  type="text"
-                  id="destinoCorrida"
-                  placeholder="Destino"
-                  required
-          />
-          <button type="submit">Cadastrar Corrida</button>
-        </form>
-      </div>
+    <!-- Preloader -->
+    <div class="preloader hidden" id="preloader">
+      <div class="loader" id="loader"></div>
     </div>
-  </div>
 
-  <!-- Preloader -->
-  <div class="preloader hidden" id="preloader">
-    <div class="loader" id="loader"></div>
-  </div>
-</div>
-
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

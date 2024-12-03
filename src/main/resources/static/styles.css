@@ -11,47 +11,79 @@ body {
   padding: 0;
 }
 
+.img-container img {
+  max-width: 300px;
+  height: auto;
+}
+
+.img-container {
+  width: 100%;
+  margin-top: -100px;
+  margin-bottom: 10px;
+  background-color: #000000;
+  text-align: center;
+  max-width: 1400px;
+}
+
+.top-container {
+  width: 100%;
+  background-color: #f1c40f;
+  padding: 5px 0; /* Diminui a altura do container */
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 0px; /* Distância do topo do body */
+  margin-bottom: 10px; /* Diminui a distância para o container principal */
+  max-width: 1400px;
+}
+
+/* Estilos para o container abaixo */
+.bottom-container {
+  display: flex; /* Define o container como flex */
+  justify-content: center; /* Centraliza o conteúdo na horizontal */
+  align-items: center; /* Centraliza o conteúdo na vertical */
+  width: 100%;
+  background-color: #f1c40f;
+  padding: 5px 0; /* Diminui a altura do container */
+  text-align: center;
+  font-size: 0.85em;
+  margin-top: 10px; /* Diminui a distância para o container principal */
+  margin-bottom: 0px; /* Distância do final da página */
+  max-width: 1400px;
+  height: 35px;
+}
+
 /* Container principal */
 .container {
   background: #ffffff; /* Fundo branco para o container */
   padding: 30px;
   text-align: center;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   width: 100%; /* Largura adaptável ao tamanho da tela */
-  max-width: 1400px; /* Limita a largura máxima */
-  margin-top: 10px;
+  max-width: 1340px; /* Limita a largura máxima */
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Alinha os itens no topo */
   align-items: center; /* Centraliza os itens horizontalmente */
-  min-height: 400px;
 }
 
-/* Estilo do título */
-h1 {
-  color: #000000; /* Cor amarela para o título */
-  font-size: 1.6em;
-  margin-bottom: 20px;
-}
-
-/* Content container (formulários e mapa lado a lado) */
 .content {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 0px;
   width: 100%; /* Garante que ocupe toda a largura do container */
+  color: #000000;
 }
 
 /* Container dos formulários */
 .form-container {
   width: 48%; /* Largura do lado esquerdo (formulários) */
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
 }
 
 h2 {
-  color: #000000; /* Cor amarela para os títulos dos formulários */
+  color: #000000;
+  font-size: 1.2em;
 }
 
 /* Estilo dos formulários e botões */
@@ -66,9 +98,9 @@ button {
   margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 15px;
-  width: 100%; /* Ocupar toda a largura do container */
+  width: 80%; /* Ocupar toda a largura do container */
   box-sizing: border-box;
-  height: 40px; /* Altura dos inputs e botões */
+  height: 35px; /* Altura dos inputs e botões */
   padding: 8px;
 }
 
@@ -83,7 +115,6 @@ button {
 button:hover {
   background-color: #e0b90f; /* Amarelo mais escuro no hover */
 }
-
 
 /* Preloader (animação de carregamento) */
 .preloader {
