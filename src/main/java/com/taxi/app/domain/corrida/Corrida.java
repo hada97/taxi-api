@@ -2,16 +2,13 @@ package com.taxi.app.domain.corrida;
 
 import com.taxi.app.domain.user.User;
 import com.taxi.app.domain.driver.Driver;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.DecimalMin;
 import lombok.*;
 
 @Entity
+@Table(name = "corridas")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,0 +1,11 @@
+-- V2__Create_driver_table.sql
+
+CREATE TABLE drivers (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone VARCHAR(15) NOT NULL,
+    cnh VARCHAR(9) NOT NULL UNIQUE,
+    placa VARCHAR(7) NOT NULL UNIQUE,
+    status VARCHAR(20) DEFAULT 'DISPONIVEL' NOT NULL
+);

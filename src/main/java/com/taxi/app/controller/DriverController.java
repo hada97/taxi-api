@@ -4,6 +4,7 @@ import com.taxi.app.domain.driver.Driver;
 import com.taxi.app.domain.driver.DriverRepository;
 import com.taxi.app.domain.driver.DriverService;
 import com.taxi.app.domain.driver.StatusDriver;
+import com.taxi.app.domain.user.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,12 @@ public class DriverController {
 
     @Autowired
     private DriverService service;
+
+    @GetMapping
+    public ResponseEntity<List<Driver>> getAllUsers() {
+        List<Driver> drivers = driverRepository.findAll();
+        return ResponseEntity.ok(drivers);
+    }
 
     @GetMapping("/disponiveis")
     public Page<Driver> getDriversDisponiveis(
