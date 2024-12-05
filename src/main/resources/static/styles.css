@@ -71,7 +71,7 @@ body {
   justify-content: space-between;
   margin-top: 0px;
   width: 100%; /* Garante que ocupe toda a largura do container */
-  color: #000000;
+  color: #7e7e7e;
 }
 
 /* Container dos formulários */
@@ -144,6 +144,11 @@ button:hover {
   margin-top: -60px;
   margin-left: -60px;
 }
+
+.yellow-text {
+  color: #f1c40f;
+}
+
 
 @keyframes spin {
   0% {
