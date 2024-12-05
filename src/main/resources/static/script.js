@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-   // Listar drivers
+  // Listar drivers
   document
     .getElementById("btnListarMotorista")
     .addEventListener("click", listarMotoristas);
@@ -250,4 +250,53 @@ document.addEventListener("DOMContentLoaded", () => {
   function recarregarPagina() {
     location.reload();
   }
+});
+
+//criando mapa com coordenadas
+document.addEventListener("DOMContentLoaded", function () {
+  var saoBernardoCoordinates = [-23.6828, -46.565]; // Coordenadas de São Bernardo do Campo
+  var saoPauloCoordinates = [-23.5616, -46.6253]; // Coordenadas de São Paulo
+
+  // Inicializa o mapa
+  var map = L.map("map").setView(saoBernardoCoordinates, 12); // Zoom ajustado para 12
+
+  // Adiciona o tileLayer do OpenStreetMap
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
+
+  // Requisição da rota via API TomTom
+  fetch(
+    "https://api.tomtom.com/routing/1/calculateRoute/-23.6828,-46.5650:-23.5616,-46.6253/json?key=FavFAG60A7v65P6j4vgAxOQ6qYATmwjf"
+  )
+    .then((response) => response.json())
+    .then((routeData) => {
+      // Imprime a resposta da API no console para depuração
+      console.log(routeData);
+
+      // Verifique se a resposta contém a estrutura esperada
+      if (
+        routeData &&
+        routeData.routes &&
+        routeData.routes[0] &&
+        routeData.routes[0].legs[0]
+      ) {
+        // Mapeia as coordenadas da rota
+        var routeCoordinates = routeData.routes[0].legs[0].points.map(
+          (point) => [point.latitude, point.longitude]
+        );
+
+        // Desenha a rota no mapa com uma linha azul
+        L.polyline(routeCoordinates, { color: "blue", weight: 5 }).addTo(map);
+
+        // Ajusta o mapa para os limites da rota
+        map.fitBounds(L.polyline(routeCoordinates).getBounds());
+      } else {
+        console.error("Erro: Estrutura de dados inesperada da API", routeData);
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao carregar a rota:", error);
+    });
 });

@@ -23,7 +23,6 @@ import java.util.Random;
 @Service
 public class CorridaService {
 
-
     @Autowired
     private UserRepository userRepository;
 

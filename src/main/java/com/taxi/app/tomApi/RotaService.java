@@ -8,7 +8,6 @@ public class RotaService {
     private final GeocodingService geocodingService;
     private final TomTomService tomTomService;
 
-    // Construtor para injeção de dependências
     public RotaService(GeocodingService geocodingService, TomTomService tomTomService) {
         this.geocodingService = geocodingService;
         this.tomTomService = tomTomService;
