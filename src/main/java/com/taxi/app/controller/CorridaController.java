@@ -42,6 +42,16 @@ public class CorridaController {
         return ResponseEntity.ok(corridas);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Corrida> getCorridaById(@PathVariable Long id) {
+        Optional<Corrida> corrida = corridaRepository.findById(id);
+        if (corrida.isPresent()) {
+            return ResponseEntity.ok(corrida.get());
+        }
+        return ResponseEntity.notFound().build(); // Retorna 404 se não encontrar a corrida
+    }
+
+
     @PostMapping
     @Transactional
     public ResponseEntity marcar(@RequestBody @Valid DadosSolicitarCorridas dados) {
