@@ -36,10 +36,22 @@ public class CorridaController {
         return ResponseEntity.ok(corridas);
     }
 
+    @GetMapping("/andamento")
+    public ResponseEntity<List<Corrida>> getCorridasEmAndamento() {
+        List<Corrida> corridas = corridaRepository.findByStatus(StatusCorrida.EM_ANDAMENTO);
+        return ResponseEntity.ok(corridas);
+    }
+
     @PostMapping
     @Transactional
     public ResponseEntity marcar(@RequestBody @Valid DadosSolicitarCorridas dados) {
         var dto = service.marcar(dados);
+        return ResponseEntity.ok(dto);
+    }
+    @PostMapping("/{id}/concluir")
+    @Transactional
+    public ResponseEntity concluir(@PathVariable Long id) {
+        var dto = service.concluir(id);
         return ResponseEntity.ok(dto);
     }
 

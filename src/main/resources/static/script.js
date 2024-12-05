@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         data.forEach((corrida) => {
           const div = document.createElement("div");
-          div.textContent = `User: ${corrida.user.id}, Origem: ${corrida.origem}, Destino: ${corrida.destino}`;
+          div.textContent = `Corrida: ${corrida.id}, User: ${corrida.user.id}, Origem: ${corrida.origem}, Destino: ${corrida.destino}, ${corrida.status}`;
           corridaList.appendChild(div);
         });
       }

@@ -43,7 +43,7 @@ public class Corrida {
         this.origem = origem;
         this.destino = destino;
         this.preco = preco;
-        this.status = status != null ? status : StatusCorrida.PENDENTE;
+        this.status = status;
     }
 
 

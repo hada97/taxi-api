@@ -7,7 +7,9 @@ import com.taxi.app.domain.user.User;
 import com.taxi.app.domain.user.UserRepository;
 import com.taxi.app.tomApi.GeocodingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.service.invoker.AbstractNamedValueArgumentResolver;
 
 import java.util.List;
@@ -44,9 +46,13 @@ public class CorridaService {
                 origem,
                 destino,
                 preco,
-                dados.status() == StatusCorrida.PENDENTE ? StatusCorrida.EM_ANDAMENTO : dados.status()
+                StatusCorrida.PENDENTE
         );
 
+        corridaRepository.save(corrida);
+        // Altera o status para EM_ANDAMENTO
+        corrida.setStatus(StatusCorrida.EM_ANDAMENTO);
+        // Salva a corrida novamente com o novo status
         corridaRepository.save(corrida);
         driver.setStatus(StatusDriver.OCUPADO);
         driverRepository.save(driver);
@@ -104,6 +110,16 @@ public class CorridaService {
                 * Math.sin(dLon / 2) * Math.sin(dLon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;  // Distância em quilômetros
+    }
+
+    public Object concluir(Long id) {
+        var corridaOptional = corridaRepository.findById(id);
+        if (corridaOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Corrida não encontrada.");
+        }
+        var corrida = corridaOptional.get();
+        corrida.setStatus(StatusCorrida.CONCLUIDA);
+        return new DadosDetalharCorridas(corrida);
     }
 
 }

@@ -1,0 +1,12 @@
+2024-12-05 09:43:43.934373-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
+select u1_0.id,u1_0.email,u1_0.name,u1_0.phone from users u1_0 [42104-232]
+2024-12-05 09:43:51.827094-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
+insert into users (email,name,phone,id) values (?,?,?,default) [42104-232]
+2024-12-05 09:43:54.026138-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
+insert into users (email,name,phone,id) values (?,?,?,default) [42104-232]
+2024-12-05 09:43:59.165298-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
+insert into users (email,name,phone,id) values (?,?,?,default) [42104-232]
