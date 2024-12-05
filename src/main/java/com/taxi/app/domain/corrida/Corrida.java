@@ -25,7 +25,7 @@ public class Corrida {
     private User user;  // Relacionamento com o User
 
     @ManyToOne
-    private Driver motorista;  // Relacionamento com o Driver
+    private Driver driver;  // Relacionamento com o Driver
 
     @NotBlank
     private String origem;
@@ -33,18 +33,17 @@ public class Corrida {
     @NotBlank
     private String destino;
 
-    @DecimalMin(value = "5.0")
     private Double preco;
 
     private StatusCorrida status = StatusCorrida.PENDENTE;
 
-    public Corrida(User user, Driver motorista, String origem, String destino, double preco, StatusCorrida status) {
+    public Corrida(User user, Driver driver, String origem, String destino, double preco, StatusCorrida status) {
         this.user = user;
-        this.motorista = motorista;
+        this.driver = driver;
         this.origem = origem;
         this.destino = destino;
         this.preco = preco;
-        this.status = status != null ? status : StatusCorrida.PENDENTE;  // Atribui o status, se fornecido, caso contrário, define como PENDENTE
+        this.status = status != null ? status : StatusCorrida.PENDENTE;
     }
 
 

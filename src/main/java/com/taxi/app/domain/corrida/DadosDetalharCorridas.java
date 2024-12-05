@@ -15,10 +15,8 @@ public record DadosDetalharCorridas(
     public DadosDetalharCorridas(Corrida corrida) {
         this(
                 corrida.getId(),
-                // Verifique se o user não é null antes de acessar getId
                 corrida.getUser() != null ? corrida.getUser().getId() : null,
-                // Verifique se o motorista não é null antes de acessar getId
-                corrida.getMotorista() != null ? corrida.getMotorista().getId() : null,
+                corrida.getDriver() != null ? corrida.getDriver().getId() : null,
                 corrida.getOrigem(),
                 corrida.getDestino(),
                 corrida.getPreco(),

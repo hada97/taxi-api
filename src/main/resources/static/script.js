@@ -194,6 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+   // Listar drivers
   document
     .getElementById("btnListarMotorista")
     .addEventListener("click", listarMotoristas);
@@ -232,9 +233,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const corridaList = document.getElementById("corridaList");
       corridaList.innerHTML = "";
       if (response.ok) {
-        data.content.forEach((corrida) => {
+        data.forEach((corrida) => {
           const div = document.createElement("div");
-          div.textContent = `ID do Usuário: ${corrida.idUser}, Origem: ${corrida.origem}, Destino: ${corrida.destino}`;
+          div.textContent = `User: ${corrida.user.id}, Origem: ${corrida.origem}, Destino: ${corrida.destino}`;
           corridaList.appendChild(div);
         });
       }

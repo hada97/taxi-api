@@ -28,17 +28,17 @@ public class CorridaService {
     private CorridaRepository corridaRepository;
 
     @Autowired
-    private GeocodingService geocodingService;  // Injetando o serviço de geocodificação
+    private GeocodingService geocodingService;
 
     public DadosDetalharCorridas marcar(DadosSolicitarCorridas dados) {
 
         User user = userRepository.findById(dados.idUser())
                 .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado e isso"));
-        Driver driver = escolherDriver(dados);
+        Driver driver = escolherDriver();
         var preco = calcularPreco(dados.origem(), dados.destino());
         var origem = dados.origem();
         var destino = dados.destino();
-        var corrida = new Corrida(
+        Corrida corrida = new Corrida(
                 user,
                 driver,
                 origem,
@@ -54,25 +54,21 @@ public class CorridaService {
     }
 
 
-    private Driver escolherDriver(DadosSolicitarCorridas dados) {
-        // Buscar até 10 motoristas disponíveis
+    private Driver escolherDriver() {
         List<Driver> motoristasDisponiveis = driverRepository.findByStatus(StatusDriver.DISPONIVEL);
-        // Limitar o número de motoristas para no máximo 10
+
         if (motoristasDisponiveis.size() > 10) {
-            motoristasDisponiveis = motoristasDisponiveis.subList(0, 10);
-        }
-        // Se não houver motoristas disponíveis, lançar uma exceção
+            motoristasDisponiveis = motoristasDisponiveis.subList(0, 10);}
+
         if (motoristasDisponiveis.isEmpty()) {
-            throw new RuntimeException("Não há motoristas disponíveis no momento.");
-        }
-        // Escolher um motorista aleatório entre os motoristas disponíveis
+            throw new RuntimeException("Não há motoristas disponíveis no momento.");}
+
         Random random = new Random();
-        int indiceAleatorio = random.nextInt(motoristasDisponiveis.size());
-        // Retornar o motorista escolhido
-        return motoristasDisponiveis.get(indiceAleatorio);
+        int r = random.nextInt(motoristasDisponiveis.size());
+        return motoristasDisponiveis.get(r);
     }
 
-
+    /*
     private double calcularPreco(String origem, String destino) {
         // Obter as coordenadas da origem e do destino
         double[] coordenadasOrigem = geocodingService.geocode(origem);
@@ -84,6 +80,11 @@ public class CorridaService {
         // O preço será baseado na distância. Exemplo simples: 5 reais fixos + 2 reais por km
         double precoCalculado = 5.0 + (distancia * 2.5);  // 2 reais por quilômetro
 
+        return precoCalculado;
+    }*/
+
+    private double calcularPreco(String origem, String destino) {
+        double precoCalculado = 6.0;
         return precoCalculado;
     }
 
