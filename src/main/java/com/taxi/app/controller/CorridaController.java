@@ -42,6 +42,12 @@ public class CorridaController {
         return ResponseEntity.ok(corridas);
     }
 
+    @GetMapping("/concluidas")
+    public ResponseEntity<List<Corrida>> getCorridasConcluidas() {
+        List<Corrida> corridas = corridaRepository.findByStatus(StatusCorrida.CONCLUIDA);
+        return ResponseEntity.ok(corridas);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Corrida> getCorridaById(@PathVariable Long id) {
         Optional<Corrida> corrida = corridaRepository.findById(id);

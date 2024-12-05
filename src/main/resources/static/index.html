@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gerenciamento Corridas</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
   </head>
   <body>
     <div class="img-container">
@@ -115,6 +118,17 @@
 
           <button id="btnListarCorrida">Corridas em Andamento</button>
 
+          <button id="btnListarCorridaConcluidas">Corridas Concluídas</button>
+
+          <input
+            type="number"
+            id="idCorrida"
+            class="inputCorrida"
+            placeholder="ID Corrida"
+            required
+          />
+          <button id="btnDetalharCorrida">Detalhar Corrida</button>
+
           <button id="toggleCorridaForm">Cadastrar Corrida</button>
 
           <div id="cadastroCorridaFormContainer" class="hidden">
@@ -145,6 +159,7 @@
 
         <div class="form-container">
           <h2>Detalhes</h2>
+          <div id="detalhecorridaList" class="resultList"></div>
           <div class="map-container">
             <!-- Aqui vai o mapa Leaflet -->
             <div id="map"></div>

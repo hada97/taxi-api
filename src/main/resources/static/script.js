@@ -2,6 +2,8 @@ const baseUrl = "http://localhost:8080";
 const apiUrlUsers = `${baseUrl}/users`;
 const apiUrlMotoristas = `${baseUrl}/drivers`;
 const apiUrlCorridas = `${baseUrl}/corridas`;
+const apiUrlCorridasEM_ANDAMENTO = `${baseUrl}/corridas/andamento`;
+const apiUrlCorridasCONCLUIDAS = `${baseUrl}/corridas/concluidas`;
 
 function toggleLoader(ativo) {
   const loaderElement = document.getElementById("loader"); // Supondo que você tenha um elemento com id "loader"
@@ -219,14 +221,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Listar corridas
+  // Listar corridas em ANDAMENTO
   document
     .getElementById("btnListarCorrida")
     .addEventListener("click", listarCorridas);
   async function listarCorridas() {
     try {
       toggleLoader(true);
-      const response = await fetch(apiUrlCorridas, {
+      const response = await fetch(apiUrlCorridasEM_ANDAMENTO, {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
@@ -235,7 +237,34 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         data.forEach((corrida) => {
           const div = document.createElement("div");
-          div.textContent = `Corrida: ${corrida.id}, User: ${corrida.user.id}, Origem: ${corrida.origem}, Destino: ${corrida.destino}, ${corrida.status}`;
+          div.textContent = `Corrida ${corrida.id}, User ${corrida.user.id}, Driver ${corrida.driver.id}, ${corrida.status}`;
+          corridaList.appendChild(div);
+        });
+      }
+    } catch (error) {
+      alert("Ocorreu um erro ao tentar listar: " + error.message);
+    } finally {
+      toggleLoader(false);
+    }
+  }
+
+  // Listar corridas em CONCLUIDAS
+  document
+    .getElementById("btnListarCorridaConcluidas")
+    .addEventListener("click", listarCorridasCon);
+  async function listarCorridasCon() {
+    try {
+      toggleLoader(true);
+      const response = await fetch(apiUrlCorridasCONCLUIDAS, {
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      const corridaList = document.getElementById("corridaList");
+      corridaList.innerHTML = "";
+      if (response.ok) {
+        data.forEach((corrida) => {
+          const div = document.createElement("div");
+          div.textContent = `Corrida ${corrida.id}, User ${corrida.user.id}, Driver ${corrida.driver.id}, ${corrida.status}`;
           corridaList.appendChild(div);
         });
       }
@@ -252,51 +281,127 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-//criando mapa com coordenadas
-document.addEventListener("DOMContentLoaded", function () {
-  var saoBernardoCoordinates = [-23.6828, -46.565]; // Coordenadas de São Bernardo do Campo
-  var saoPauloCoordinates = [-23.5616, -46.6253]; // Coordenadas de São Paulo
+// Detalhar Corrida
+document
+  .getElementById("btnDetalharCorrida")
+  .addEventListener("click", async function DetalharCorridas() {
+    try {
+      const corridaId = document.getElementById("idCorrida").value; // Pegando o ID da corrida
+      const corrida = await buscarCorrida(corridaId); // Buscando a corrida com o ID
 
-  // Inicializa o mapa
-  var map = L.map("map").setView(saoBernardoCoordinates, 12); // Zoom ajustado para 12
+      if (!corrida) {
+        console.error("Corrida não encontrada.");
+        return;
+      }
 
-  // Adiciona o tileLayer do OpenStreetMap
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
+      const origem = corrida.origem;
+      const destino = corrida.destino;
+      const preco = corrida.preco; // Preço da corrida vindo do objeto 'corrida'
 
-  // Requisição da rota via API TomTom
-  fetch(
-    "https://api.tomtom.com/routing/1/calculateRoute/-23.6828,-46.5650:-23.5616,-46.6253/json?key=FavFAG60A7v65P6j4vgAxOQ6qYATmwjf"
-  )
-    .then((response) => response.json())
-    .then((routeData) => {
-      // Imprime a resposta da API no console para depuração
-      console.log(routeData);
+      // Passo 2: Obter coordenadas de origem e destino
+      const origemCoordinates = await geocode(origem);
+      const destinoCoordinates = await geocode(destino);
 
-      // Verifique se a resposta contém a estrutura esperada
-      if (
-        routeData &&
-        routeData.routes &&
-        routeData.routes[0] &&
-        routeData.routes[0].legs[0]
-      ) {
-        // Mapeia as coordenadas da rota
-        var routeCoordinates = routeData.routes[0].legs[0].points.map(
+      if (!origemCoordinates || !destinoCoordinates) {
+        console.error("Erro ao obter coordenadas.");
+        return;
+      }
+
+      // Passo 3: Requisição da rota via API TomTom
+      const routeData = await obterRotaTomTom(
+        origemCoordinates,
+        destinoCoordinates
+      );
+
+      if (routeData) {
+        // Limpar a lista de detalhes da corrida antes de exibir os novos dados
+        const listContainer = document.getElementById("detalhecorridaList");
+        listContainer.innerHTML = ""; // Limpar todos os elementos dentro da div
+
+        // Acessando a distância corretamente dentro de 'summary'
+        const distanceInMeters =
+          routeData.routes[0].legs[0].summary.lengthInMeters;
+
+        console.log("Distância em metros:", distanceInMeters); // Exibindo a distância em metros diretamente
+
+        // Convertendo a distância para quilômetros
+        const distanceInKm = (distanceInMeters / 1000).toFixed(1);
+
+        // Criando a div para distância
+        const divDistancia = document.createElement("div");
+        divDistancia.textContent = `Distância: ${distanceInKm} Km`;
+        listContainer.appendChild(divDistancia);
+
+        // Criando a div para preço
+        const divPreco = document.createElement("div");
+        divPreco.textContent = `Preço: R$ ${preco}`;
+        listContainer.appendChild(divPreco);
+
+        // Inicializa o mapa
+        var map = L.map("map").setView(origemCoordinates, 12); // Define o ponto de vista inicial no local de origem
+
+        // Adiciona o tileLayer do OpenStreetMap
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // Desenha a rota no mapa se os dados estiverem corretos
+        const routeCoordinates = routeData.routes[0].legs[0].points.map(
           (point) => [point.latitude, point.longitude]
         );
 
-        // Desenha a rota no mapa com uma linha azul
         L.polyline(routeCoordinates, { color: "blue", weight: 5 }).addTo(map);
 
         // Ajusta o mapa para os limites da rota
         map.fitBounds(L.polyline(routeCoordinates).getBounds());
-      } else {
-        console.error("Erro: Estrutura de dados inesperada da API", routeData);
       }
-    })
-    .catch((error) => {
-      console.error("Erro ao carregar a rota:", error);
-    });
-});
+    } catch (error) {
+      console.error("Erro geral:", error);
+    }
+  });
+
+// Função para buscar corrida específica
+async function buscarCorrida(id) {
+  const response = await fetch(`http://localhost:8080/corridas/${id}`);
+  if (!response.ok) {
+    throw new Error("Erro ao buscar a corrida");
+  }
+  const corrida = await response.json();
+  return corrida;
+}
+
+// Função para geocodificar (obter coordenadas)
+async function geocode(local) {
+  const apiKey = "FavFAG60A7v65P6j4vgAxOQ6qYATmwjf"; // Substitua pela sua chave do TomTom
+  const url = `https://api.tomtom.com/search/2/geocode/${encodeURIComponent(
+    local
+  )}.json?key=${apiKey}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Erro ao buscar coordenadas");
+  }
+
+  const data = await response.json();
+  if (data.results && data.results.length > 0) {
+    return [data.results[0].position.lat, data.results[0].position.lon];
+  } else {
+    console.error("Nenhum resultado encontrado para:", local);
+    return null;
+  }
+}
+
+// Função para obter a rota via TomTom
+async function obterRotaTomTom(origem, destino) {
+  const apiKey = "FavFAG60A7v65P6j4vgAxOQ6qYATmwjf"; // Substitua pela sua chave do TomTom
+  const url = `https://api.tomtom.com/routing/1/calculateRoute/${origem[0]},${origem[1]}:${destino[0]},${destino[1]}/json?key=${apiKey}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Erro ao buscar rota");
+  }
+
+  const data = await response.json();
+  return data;
+}

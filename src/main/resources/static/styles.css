@@ -196,4 +196,7 @@ input::placeholder {
   width: 100%;
   height: 400px; /* A mesma altura para o contêiner do mapa */
   position: relative; /* Necessário para que o mapa se posicione corretamente */
+  margin-top: 8px;
 }
+
+
