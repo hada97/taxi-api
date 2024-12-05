@@ -3,8 +3,6 @@ const apiUrlUsers = `${baseUrl}/users`;
 const apiUrlMotoristas = `${baseUrl}/drivers`;
 const apiUrlCorridas = `${baseUrl}/corridas`;
 
-
-
 function toggleLoader(ativo) {
   const loaderElement = document.getElementById("loader"); // Supondo que você tenha um elemento com id "loader"
   if (ativo) {
@@ -13,7 +11,6 @@ function toggleLoader(ativo) {
     loaderElement.classList.add("hidden"); // Esconde o loader
   }
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
   // Alternar exibição do formulário de cadastro de usuário
@@ -51,11 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("cadastroUserForm")
     .addEventListener("submit", async function (event) {
       event.preventDefault();
-      const nome = document.getElementById("nomeUser").value;
+      const name = document.getElementById("nomeUser").value;
       const email = document.getElementById("emailUser").value;
-      const telefone = document.getElementById("telefoneUser").value;
+      const phone = document.getElementById("telefoneUser").value;
 
-      if (!nome || !email || !telefone) {
+      if (!name || !email || !phone) {
         return;
       }
 
@@ -66,9 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            nome,
+            name,
             email,
-            telefone,
+            phone,
           }),
         });
 
@@ -90,13 +87,13 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("cadastroMotoristaForm")
     .addEventListener("submit", async function (event) {
       event.preventDefault();
-      const nome = document.getElementById("nomeMotorista").value;
+      const name = document.getElementById("nomeMotorista").value;
       const email = document.getElementById("emailMotorista").value;
-      const telefone = document.getElementById("telefoneMotorista").value;
+      const phone = document.getElementById("telefoneMotorista").value;
       const cnh = document.getElementById("cnhMotorista").value;
       const placa = document.getElementById("placaMotorista").value;
 
-      if (!nome || !email || !telefone || !cnh || !placa) {
+      if (!name || !email || !phone || !cnh || !placa) {
         return;
       }
 
@@ -107,9 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            nome,
+            name,
             email,
-            telefone,
+            phone,
             cnh,
             placa,
           }),
@@ -175,14 +172,14 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleLoader(true); // Se você tiver uma função de loader, mostre o carregamento
       const response = await fetch(apiUrlUsers);
       const data = await response.json();
-      console.log(data); 
+      console.log(data);
       const usuarioList = document.getElementById("UserList");
       usuarioList.innerHTML = ""; // Limpa a lista antes de adicionar novos itens
 
       if (response.ok) {
-        data.content.forEach((usuario) => {
+        data.forEach((usuario) => {
           const div = document.createElement("div");
-          div.textContent = `ID: ${usuario.id}, ${usuario.nome}, email: ${usuario.email}, Telefone: ${usuario.telefone}`;
+          div.textContent = `ID: ${usuario.id}, ${usuario.name}`;
           usuarioList.appendChild(div);
         });
       } else {
@@ -208,9 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const motoristaList = document.getElementById("motoristaList");
       motoristaList.innerHTML = "";
       if (response.ok) {
-        data.content.forEach((motorista) => {
+        data.forEach((motorista) => {
           const div = document.createElement("div");
-          div.textContent = `Nome: ${motorista.nome}, Email: ${motorista.email}, Telefone: ${motorista.telefone}, CNH: ${motorista.cnh}, Placa: ${motorista.placa}`;
+          div.textContent = `${motorista.name}, Placa: ${motorista.placa}, ${motorista.status}`;
           motoristaList.appendChild(div);
         });
       }
@@ -253,4 +250,3 @@ document.addEventListener("DOMContentLoaded", () => {
     location.reload();
   }
 });
-
