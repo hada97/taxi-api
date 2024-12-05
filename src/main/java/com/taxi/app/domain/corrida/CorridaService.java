@@ -1,17 +1,21 @@
 package com.taxi.app.domain.corrida;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taxi.app.domain.driver.Driver;
 import com.taxi.app.domain.driver.DriverRepository;
 import com.taxi.app.domain.driver.StatusDriver;
 import com.taxi.app.domain.user.User;
 import com.taxi.app.domain.user.UserRepository;
 import com.taxi.app.tomApi.GeocodingService;
+import com.taxi.app.tomApi.TomTomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.service.invoker.AbstractNamedValueArgumentResolver;
 
+import javax.sound.midi.SoundbankResource;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -32,6 +36,9 @@ public class CorridaService {
     @Autowired
     private GeocodingService geocodingService;
 
+    @Autowired
+    private TomTomService tomTomService;
+
     public DadosDetalharCorridas marcar(DadosSolicitarCorridas dados) {
 
         User user = userRepository.findById(dados.idUser())
@@ -48,11 +55,8 @@ public class CorridaService {
                 preco,
                 StatusCorrida.PENDENTE
         );
-
         corridaRepository.save(corrida);
-        // Altera o status para EM_ANDAMENTO
         corrida.setStatus(StatusCorrida.EM_ANDAMENTO);
-        // Salva a corrida novamente com o novo status
         corridaRepository.save(corrida);
         driver.setStatus(StatusDriver.OCUPADO);
         driverRepository.save(driver);
@@ -74,42 +78,32 @@ public class CorridaService {
         return motoristasDisponiveis.get(r);
     }
 
-    /*
+
     private double calcularPreco(String origem, String destino) {
-        // Obter as coordenadas da origem e do destino
+
         double[] coordenadasOrigem = geocodingService.geocode(origem);
         double[] coordenadasDestino = geocodingService.geocode(destino);
 
-        // Calcular a distância entre as coordenadas utilizando a fórmula de Haversine
-        double distancia = calcularDistancia(coordenadasOrigem[0], coordenadasOrigem[1], coordenadasDestino[0], coordenadasDestino[1]);
+        String jsonResponse = tomTomService.calcularRota(coordenadasOrigem[0], coordenadasOrigem[1], coordenadasDestino[0], coordenadasDestino[1]);
 
-        // O preço será baseado na distância. Exemplo simples: 5 reais fixos + 2 reais por km
-        double precoCalculado = 5.0 + (distancia * 2.5);  // 2 reais por quilômetro
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
 
-        return precoCalculado;
-    }*/
+            double distanciaEmMetros = rootNode.path("routes").path(0).path("summary").path("lengthInMeters").asDouble();
+            int tempoEmSegundos = rootNode.path("routes").path(0).path("summary").path("travelTimeInSeconds").asInt();
 
-    private double calcularPreco(String origem, String destino) {
-        double precoCalculado = 6.0;
-        return precoCalculado;
-    }
+            System.out.println("Distância: " + distanciaEmMetros + " metros");
+            System.out.println("Tempo de viagem: " + tempoEmSegundos + " segundos");
 
-    private double calcularDistancia(double lat1, double lon1, double lat2, double lon2) {
-        // Fórmula de Haversine para calcular a distância entre dois pontos geográficos
-        final double R = 6371.0; // Raio da Terra em quilômetros
-        double lat1Rad = Math.toRadians(lat1);
-        double lon1Rad = Math.toRadians(lon1);
-        double lat2Rad = Math.toRadians(lat2);
-        double lon2Rad = Math.toRadians(lon2);
+            double precoCalculado = 5.0 + (distanciaEmMetros * 0.002);
+            System.out.println("Preco: " + precoCalculado);
+            return precoCalculado;
 
-        double dLat = lat2Rad - lat1Rad;
-        double dLon = lon2Rad - lon1Rad;
-
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(lat1Rad) * Math.cos(lat2Rad)
-                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;  // Distância em quilômetros
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao processar a resposta JSON da API TomTom: " + e.getMessage());
+        }
     }
 
     public Object concluir(Long id) {
@@ -118,7 +112,11 @@ public class CorridaService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Corrida não encontrada.");
         }
         var corrida = corridaOptional.get();
+        var driver = corrida.getDriver();
+        driver.setStatus(StatusDriver.DISPONIVEL);
         corrida.setStatus(StatusCorrida.CONCLUIDA);
+        driverRepository.save(driver);
+        corridaRepository.save(corrida);
         return new DadosDetalharCorridas(corrida);
     }
 

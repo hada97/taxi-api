@@ -10,3 +10,12 @@ insert into users (email,name,phone,id) values (?,?,?,default) [42104-232]
 2024-12-05 09:43:59.165298-03:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
 insert into users (email,name,phone,id) values (?,?,?,default) [42104-232]
+2024-12-05 15:31:39.298933-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CORRIDASDRIVERS" not found; SQL statement:
+TRUNCATE TABLE corridasDRIVERS CORRIDAS CORRIDAS CORRIDAS [42102-232]
+2024-12-05 15:31:42.338747-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]CORRIDAS"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+CORRIDAS [42001-232]
+2024-12-05 15:31:42.761713-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]CORRIDAS"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+CORRIDAS [42001-232]

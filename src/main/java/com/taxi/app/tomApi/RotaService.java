@@ -14,12 +14,10 @@ public class RotaService {
         this.tomTomService = tomTomService;
     }
 
-    // Método para calcular a rota entre dois endereços
-    public String calcularRotaEntreEnderecos(String enderecoOrigem, String enderecoDestino) {
-        // Obter coordenadas (latitude e longitude) dos dois endereços
+    public String calcularRota(String enderecoOrigem, String enderecoDestino) {
+
         double[][] coordenadas = geocodingService.geocodeDoisEnderecos(enderecoOrigem, enderecoDestino);
 
-        // Calcular a rota entre as coordenadas obtidas
         return tomTomService.calcularRota(
                 coordenadas[0][0], coordenadas[0][1],
                 coordenadas[1][0], coordenadas[1][1]

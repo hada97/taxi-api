@@ -29,7 +29,6 @@ public class GeocodingService {
         String url = UriComponentsBuilder.fromHttpUrl(BASE_URL + endereco + ".json")
                 .queryParam("key", apiKey)
                 .toUriString();
-
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
             // Parse the response and extract the latitude and longitude
