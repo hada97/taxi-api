@@ -5,6 +5,7 @@ import com.taxi.app.domain.driver.DriverRepository;
 import com.taxi.app.domain.driver.DriverService;
 import com.taxi.app.domain.driver.StatusDriver;
 import com.taxi.app.domain.user.User;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,17 +52,22 @@ public class DriverController {
         return driver.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
+
+    @PostMapping("/desativar/{id}")
     @Transactional
+    public ResponseEntity desativar(@PathVariable Long id) {
+        var dto = service.concluir(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDriver(@PathVariable Long id) {
-        Optional<Driver> driver = driverRepository.findById(id);
-        if (driver.isPresent()) {
-            Driver driverEntity = driver.get();
-            driverEntity.setStatus(StatusDriver.INATIVO); // Alterando o status para INATIVO diretamente
-            driverRepository.save(driverEntity); // Salvando as alterações no banco de dados
-            return ResponseEntity.noContent().build(); // Retorna 204 No Content
+        try {
+            service.deleteDriver(id);
+            return ResponseEntity.noContent().build();  // Retorna 204 No Content
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();  // Retorna 404 Not Found
         }
-        return ResponseEntity.notFound().build(); // Retorna 404 Not Found se o driver não for encontrado
     }
 
 }
