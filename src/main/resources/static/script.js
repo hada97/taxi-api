@@ -3,6 +3,18 @@ const apiUrlUsers = `${baseUrl}/users`;
 const apiUrlMotoristas = `${baseUrl}/drivers`;
 const apiUrlCorridas = `${baseUrl}/corridas`;
 
+
+
+function toggleLoader(ativo) {
+  const loaderElement = document.getElementById("loader"); // Supondo que você tenha um elemento com id "loader"
+  if (ativo) {
+    loaderElement.classList.remove("hidden"); // Mostra o loader
+  } else {
+    loaderElement.classList.add("hidden"); // Esconde o loader
+  }
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   // Alternar exibição do formulário de cadastro de usuário
   document
@@ -157,27 +169,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .getElementById("btnListarUser")
-    .addEventListener("click", listarUsuarios);
-  async function listarUsuarios() {
+    .addEventListener("click", listarUsers);
+  async function listarUsers() {
     try {
-      toggleLoader(true);
-      const response = await fetch(apiUrlUsers, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      toggleLoader(true); // Se você tiver uma função de loader, mostre o carregamento
+      const response = await fetch(apiUrlUsers);
       const data = await response.json();
+      console.log(data); 
       const usuarioList = document.getElementById("UserList");
-      usuarioList.innerHTML = "";
+      usuarioList.innerHTML = ""; // Limpa a lista antes de adicionar novos itens
+
       if (response.ok) {
         data.content.forEach((usuario) => {
           const div = document.createElement("div");
           div.textContent = `ID: ${usuario.id}, ${usuario.nome}, email: ${usuario.email}, Telefone: ${usuario.telefone}`;
           usuarioList.appendChild(div);
         });
+      } else {
+        alert(
+          "Erro ao listar usuários: " + (data.message || "Erro inesperado")
+        );
       }
     } catch (error) {
-      alert("Ocorreu um erro ao tentar listar: " + error.message);
+      alert("Ocorreu um erro ao tentar listar usuários: " + error.message);
     } finally {
-      toggleLoader(false);
+      toggleLoader(false); // Esconde o carregamento
     }
   }
 
@@ -187,11 +203,9 @@ document.addEventListener("DOMContentLoaded", () => {
   async function listarMotoristas() {
     try {
       toggleLoader(true);
-      const response = await fetch(apiUrlMotoristas, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(apiUrlMotoristas, {});
       const data = await response.json();
-      const motoristaList = document.getElementById("MotoristaList");
+      const motoristaList = document.getElementById("motoristaList");
       motoristaList.innerHTML = "";
       if (response.ok) {
         data.content.forEach((motorista) => {
@@ -239,3 +253,4 @@ document.addEventListener("DOMContentLoaded", () => {
     location.reload();
   }
 });
+

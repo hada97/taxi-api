@@ -9,19 +9,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class GeocodingController {
 
     @Autowired
-    private final RotaService rotaService;
+    private RotaService rotaService;
 
-    // Construtor para injeção de dependência do RotaService
-    public GeocodingController(RotaService rotaService) {
-        this.rotaService = rotaService;
+    private final GeocodingService geocodingService;
+
+    public GeocodingController(GeocodingService geocodingService) {
+        this.geocodingService = geocodingService;
     }
 
-    // Endpoint para calcular a rota entre dois endereços
-    @GetMapping("/calcular-rota")
-    public String calcularRotaEntreEnderecos(
-            @RequestParam String enderecoOrigem,
-            @RequestParam String enderecoDestino) {
-
-        return rotaService.calcularRotaEntreEnderecos(enderecoOrigem, enderecoDestino);
+    @GetMapping("/geocode")
+    public double[][] geocodeEnderecos(
+            @RequestParam String endereco1,
+            @RequestParam String endereco2) {
+        return geocodingService.geocodeDoisEnderecos(endereco1, endereco2);
     }
+
+
 }
