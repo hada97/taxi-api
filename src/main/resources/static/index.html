@@ -31,12 +31,20 @@
 
           <div id="cadastroUserFormContainer" class="hidden">
             <form id="cadastroUserForm">
-              <input type="text" id="nomeUser" placeholder="Nome" required />
+              <input
+                type="text"
+                id="nomeUser"
+                placeholder="Nome"
+                maxlength="24"
+                required
+              />
               <input type="email" id="emailUser" placeholder="Email" required />
               <input
                 type="text"
                 id="telefoneUser"
-                placeholder="Telefone"
+                placeholder="DDD + Telefone"
+                maxlength="11"
+                pattern="\d{11}"
                 required
               />
               <button type="submit">Cadastrar</button>
@@ -59,6 +67,7 @@
                 type="text"
                 id="nomeMotorista"
                 placeholder="Nome"
+                maxlength="24"
                 required
               />
               <input
@@ -70,14 +79,25 @@
               <input
                 type="text"
                 id="telefoneMotorista"
-                placeholder="Telefone"
+                placeholder="DDD + Telefone"
+                maxlength="11"
+                pattern="\d{11}"
                 required
               />
-              <input type="text" id="cnhMotorista" placeholder="CNH" required />
+              <input
+                type="text"
+                id="cnhMotorista"
+                placeholder="CNH"
+                maxlength="9"
+                pattern="\d{9}"
+                required
+              />
               <input
                 type="text"
                 id="placaMotorista"
                 placeholder="Placa"
+                maxlength="7"
+                pattern="^[A-Za-z0-9]{7}$"
                 required
               />
               <button type="submit">Cadastrar</button>
@@ -97,10 +117,11 @@
           <div id="cadastroCorridaFormContainer" class="hidden">
             <form id="cadastroCorridaForm">
               <input
-                type="text"
+                type="number"
                 id="idUser"
                 placeholder="ID do Usuário"
                 required
+                max="99999"
               />
               <input
                 type="text"
