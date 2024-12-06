@@ -64,7 +64,8 @@ public class CorridaController {
         var dto = service.marcar(dados);
         return ResponseEntity.ok(dto);
     }
-    @PostMapping("/{id}/concluir")
+
+    @PostMapping("/concluir/{id}")
     @Transactional
     public ResponseEntity concluir(@PathVariable Long id) {
         var dto = service.concluir(id);

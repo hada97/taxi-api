@@ -4,6 +4,7 @@ const apiUrlMotoristas = `${baseUrl}/drivers`;
 const apiUrlCorridas = `${baseUrl}/corridas`;
 const apiUrlCorridasANDAMENTO = `${baseUrl}/corridas/andamento`;
 const apiUrlCorridasCONCLUIDAS = `${baseUrl}/corridas/concluidas`;
+const apiUrlCorridasCONCLUIR = `${baseUrl}/corridas/concluir`;
 var map; // Variável global para o mapa
 
 function toggleLoader(ativo) {
@@ -372,6 +373,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     .getElementById("btnDetalharCorrida")
     .addEventListener("click", async function () {
       const corridaId = document.getElementById("idCorrida").value;
+      // Verifica se o ID da corrida está presente
+      if (!corridaId) {
+        alert("ID da corrida é necessário.");
+        return;
+      }
       await detalharCorrida(corridaId);
     });
 });
@@ -455,3 +461,38 @@ async function detalharCorrida(corridaId) {
   }
 }
 
+// Função para finalizar a corrida
+async function finalizarCorrida(corridaId) {
+  try {
+    const response = await fetch(`${apiUrlCorridasCONCLUIR}/${corridaId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      alert("Corrida concluída com sucesso!");
+    } else {
+      alert("Não foi possível concluir a corrida.");
+    }
+  } catch (error) {
+    alert("Ocorreu um erro ao tentar concluir a corrida: " + error.message);
+  }
+}
+
+// Adiciona o evento de clique no botão
+document
+  .getElementById("btnFinalizarCorrida")
+  .addEventListener("click", function () {
+    const corridaId = document.getElementById("idCorridaConcluir").value;
+
+    // Verifica se o ID da corrida está presente
+    if (!corridaId) {
+      alert("ID da corrida é necessário.");
+      return;
+    }
+
+    // Chama a função finalizarCorrida passando o ID da corrida
+    finalizarCorrida(corridaId);
+  });
