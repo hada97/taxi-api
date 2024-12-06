@@ -25,7 +25,7 @@ public class DriverService {
         return repository.findByStatus(StatusDriver.DISP, pageRequest);
     }
 
-    public Object concluir(Long id) {
+    public Object desativar(Long id) {
         Optional<Driver> driver = repository.findById(id);
         if (driver.isPresent()) {
             Driver driverEntity = driver.get();
@@ -36,15 +36,10 @@ public class DriverService {
         return ResponseEntity.notFound().build();
     }
 
-
-    @Transactional
     public void deleteDriver(Long driverId) {
         // Verifica se o motorista existe
         Optional<Driver> driver = repository.findById(driverId);
         if (driver.isPresent()) {
-            // Exclui todas as corridas associadas ao motorista
-            //corridaRepository.deleteByDriverId(driverId);
-            // Agora, exclui o motorista
             repository.delete(driver.get());
         } else {
             throw new EntityNotFoundException("Motorista não encontrado com ID: " + driverId);

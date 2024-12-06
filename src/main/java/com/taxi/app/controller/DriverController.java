@@ -1,10 +1,6 @@
 package com.taxi.app.controller;
 
-import com.taxi.app.domain.driver.Driver;
-import com.taxi.app.domain.driver.DriverRepository;
-import com.taxi.app.domain.driver.DriverService;
-import com.taxi.app.domain.driver.StatusDriver;
-import com.taxi.app.domain.user.User;
+import com.taxi.app.domain.driver.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +36,11 @@ public class DriverController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Driver> createDriver(@RequestBody @Valid Driver driver) {
+    public ResponseEntity<DriverResponseDTO> createDriver(@RequestBody @Valid DriverDTO driverDTO) {
+        Driver driver = driverDTO.toEntity();
         Driver savedDriver = driverRepository.save(driver);
-        return ResponseEntity.ok(savedDriver);
+        DriverResponseDTO responseDTO = DriverResponseDTO.fromEntity(savedDriver);
+        return ResponseEntity.ok(responseDTO);
     }
 
 
@@ -56,7 +54,7 @@ public class DriverController {
     @PostMapping("/desativar/{id}")
     @Transactional
     public ResponseEntity desativar(@PathVariable Long id) {
-        var dto = service.concluir(id);
+        var dto = service.desativar(id);
         return ResponseEntity.ok(dto);
     }
 

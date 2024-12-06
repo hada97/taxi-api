@@ -31,12 +31,12 @@ public class Driver {
     @NotBlank
     private String phone;
 
-    @Size(min = 4, max = 9)
+
     @NotBlank
     @Column(unique = true)
     private String cnh;
 
-    @Size(min = 5, max = 7)
+
     @NotBlank
     @Column(unique = true)
     private String placa;
