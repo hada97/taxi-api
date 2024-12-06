@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PrecoService {
-
-
+    
     public double calcularPreco(String jsonResponse) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();

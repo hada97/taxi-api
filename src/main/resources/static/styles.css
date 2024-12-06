@@ -1,7 +1,7 @@
 /* Corpo da página */
 body {
   font-family: Arial, sans-serif;
-  background-color: #9e9e9e; /* Fundo preto */
+  background-color: #e7e7e7; /* Fundo preto */
   display: flex;
   flex-direction: column; /* Organiza os elementos verticalmente */
   justify-content: center; /* Centraliza o conteúdo na vertical */
@@ -12,25 +12,33 @@ body {
 }
 
 .img-container img {
-  max-width: 300px;
+  max-width: 250px;
   height: auto;
+  text-align: center;
+  justify-content: center; 
 }
 
 .img-container {
+  display: flex;
+  justify-content: center; /* Alinha horizontalmente */
+  align-items: center; /* Alinha verticalmente */
   width: 100%;
-  margin-top: -100px;
   background-color: #000000;
-  text-align: center;
   max-width: 1500px;
+  height: 150px;
 }
 
 .top-container {
+  justify-content: center; /* Alinha verticalmente os itens */
+  align-items: center; /* Alinha horizontalmente os itens */
   width: 100%;
   background-color: #f1c40f;
   padding: 5px 0; /* Diminui a altura do container */
   text-align: center;
   font-size: 1.2em;
   max-width: 1500px;
+  height: 100px;
+  flex-direction: column; /* Organiza os itens em uma coluna */
 }
 
 /* Estilos para o container abaixo */
@@ -43,9 +51,8 @@ body {
   padding: 5px 0; /* Diminui a altura do container */
   text-align: center;
   font-size: 1em;
-  margin-bottom: 0px; /* Distância do final da página */
   max-width: 1500px;
-  height: 35px;
+  max-height: 30px;
 }
 
 /* Container principal */
@@ -67,7 +74,7 @@ body {
   justify-content: space-between;
   margin-top: 0px;
   width: 100%; /* Garante que ocupe toda a largura do container */
-  color: #cecece;
+  color: #eeeeee;
 }
 
 /* Container dos formulários */
@@ -113,7 +120,7 @@ button {
 }
 
 button:hover {
-  background-color: #c9a60d; /* Amarelo mais escuro no hover */
+  background-color: #b4960c; /* Amarelo mais escuro no hover */
 }
 
 /* Preloader (animação de carregamento) */
@@ -184,7 +191,7 @@ input::placeholder {
 #map {
   height: 350px; /* Ajuste o tamanho conforme necessário */
   width: 100%; /* O mapa ocupa toda a largura disponível */
-  border-radius: 10px; /* Bordas arredondadas */
+  border-radius: 15px; /* Bordas arredondadas */
 }
 
 

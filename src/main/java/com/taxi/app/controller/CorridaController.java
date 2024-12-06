@@ -38,7 +38,7 @@ public class CorridaController {
 
     @GetMapping("/andamento")
     public ResponseEntity<List<Corrida>> getCorridasEmAndamento() {
-        List<Corrida> corridas = corridaRepository.findByStatus(StatusCorrida.EM_ANDAMENTO);
+        List<Corrida> corridas = corridaRepository.findByStatus(StatusCorrida.ANDAMENTO);
         return ResponseEntity.ok(corridas);
     }
 

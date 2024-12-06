@@ -63,16 +63,16 @@ public class CorridaService {
                 StatusCorrida.PENDENTE
         );
         corridaRepository.save(corrida);
-        corrida.setStatus(StatusCorrida.EM_ANDAMENTO);
+        corrida.setStatus(StatusCorrida.ANDAMENTO);
         corridaRepository.save(corrida);
-        driver.setStatus(StatusDriver.OCUPADO);
+        driver.setStatus(StatusDriver.OCUP);
         driverRepository.save(driver);
         return new DadosDetalharCorridas(corrida);
     }
 
 
     private Driver escolherDriver() {
-        List<Driver> motoristasDisponiveis = driverRepository.findByStatus(StatusDriver.DISPONIVEL);
+        List<Driver> motoristasDisponiveis = driverRepository.findByStatus(StatusDriver.DISP);
 
         if (motoristasDisponiveis.size() > 10) {
             motoristasDisponiveis = motoristasDisponiveis.subList(0, 10);}
@@ -93,7 +93,7 @@ public class CorridaService {
         }
         var corrida = corridaOptional.get();
         var driver = corrida.getDriver();
-        driver.setStatus(StatusDriver.DISPONIVEL);
+        driver.setStatus(StatusDriver.DISP);
         corrida.setStatus(StatusCorrida.CONCLUIDA);
         driverRepository.save(driver);
         corridaRepository.save(corrida);

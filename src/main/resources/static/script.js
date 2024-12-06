@@ -2,8 +2,9 @@ const baseUrl = "http://localhost:8080";
 const apiUrlUsers = `${baseUrl}/users`;
 const apiUrlMotoristas = `${baseUrl}/drivers`;
 const apiUrlCorridas = `${baseUrl}/corridas`;
-const apiUrlCorridasEM_ANDAMENTO = `${baseUrl}/corridas/andamento`;
+const apiUrlCorridasANDAMENTO = `${baseUrl}/corridas/andamento`;
 const apiUrlCorridasCONCLUIDAS = `${baseUrl}/corridas/concluidas`;
+var map; // Variável global para o mapa
 
 function toggleLoader(ativo) {
   const loaderElement = document.getElementById("loader"); // Supondo que você tenha um elemento com id "loader"
@@ -228,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function listarCorridas() {
     try {
       toggleLoader(true);
-      const response = await fetch(apiUrlCorridasEM_ANDAMENTO, {
+      const response = await fetch(apiUrlCorridasANDAMENTO, {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
@@ -281,89 +282,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-var map; // Variável global para o mapa
-document
-  .getElementById("btnDetalharCorrida")
-  .addEventListener("click", async function DetalharCorridas() {
-    try {
-      const corridaId = document.getElementById("idCorrida").value; // Pegando o ID da corrida
-      const corrida = await buscarCorrida(corridaId); // Buscando a corrida com o ID
-
-      if (!corrida) {
-        console.error("Corrida não encontrada.");
-        return;
-      }
-
-      const origem = corrida.origem;
-      const destino = corrida.destino;
-      const preco = parseFloat(corrida.preco).toFixed(2); // Formata o preço com 2 casas decimais
-      
-
-      // Passo 2: Obter coordenadas de origem e destino
-      const origemCoordinates = await geocode(origem);
-      const destinoCoordinates = await geocode(destino);
-
-      if (!origemCoordinates || !destinoCoordinates) {
-        console.error("Erro ao obter coordenadas.");
-        return;
-      }
-
-      // Passo 3: Requisição da rota via API TomTom
-      const routeData = await obterRotaTomTom(
-        origemCoordinates,
-        destinoCoordinates
-      );
-
-      if (routeData) {
-        // Limpar a lista de detalhes da corrida antes de exibir os novos dados
-        const listContainer = document.getElementById("detalhecorridaList");
-        listContainer.innerHTML = ""; // Limpar todos os elementos dentro da div
-
-        // Acessando a distância corretamente dentro de 'summary'
-        const distanceInMeters =
-          routeData.routes[0].legs[0].summary.lengthInMeters;
-
-        // Convertendo a distância para quilômetros
-        const distanceInKm = (distanceInMeters / 1000).toFixed(1);
-
-        // Criando a div para distância
-        const divDistancia = document.createElement("div");
-        divDistancia.textContent = `Distância: ${distanceInKm} Km`;
-        listContainer.appendChild(divDistancia);
-        
-        const divPreco = document.createElement("div");
-        divPreco.textContent = `Preço: R$ ${preco}`;
-        listContainer.appendChild(divPreco);
-
-        if (map) {
-          map.remove(); // Remove o mapa existente
-        }
-
-        // Criar um novo mapa com as coordenadas de origem
-        map = L.map("map").setView(origemCoordinates, 12);
-
-        // Adiciona o tileLayer do OpenStreetMap
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map);
-
-        // Desenha a nova rota no mapa
-        const routeCoordinates = routeData.routes[0].legs[0].points.map(
-          (point) => [point.latitude, point.longitude]
-        );
-
-        // Desenhando a rota no mapa
-        L.polyline(routeCoordinates, { color: "blue", weight: 5 }).addTo(map);
-
-        // Ajusta o mapa para os limites da rota
-        map.fitBounds(L.polyline(routeCoordinates).getBounds());
-      }
-    } catch (error) {
-      console.error("Erro geral:", error);
-    }
-  });
-
 // Função para buscar corrida específica
 async function buscarCorrida(id) {
   const response = await fetch(`http://localhost:8080/corridas/${id}`);
@@ -399,7 +317,7 @@ async function geocode(local) {
 async function obterRotaTomTom(origem, destino) {
   const apiKey = "FavFAG60A7v65P6j4vgAxOQ6qYATmwjf"; // Substitua pela sua chave
   const url = `https://api.tomtom.com/routing/1/calculateRoute/${origem[0]},${origem[1]}:${destino[0]},${destino[1]}/json?key=${apiKey}`;
-  console.log(url)
+  console.log(url);
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error("Erro ao buscar rota");
@@ -426,13 +344,13 @@ async function obterLocalizacaoIP() {
   }
 }
 
+//Obtein localizacao do Uuario
 async function exibirMapaLocalizacao() {
   const coordenadas = await obterLocalizacaoIP();
   if (!coordenadas) {
     alert("Não foi possível obter a localização.");
     return;
   }
-
   map = L.map("map").setView(coordenadas, 13);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -446,6 +364,7 @@ async function exibirMapaLocalizacao() {
     .openPopup();
 }
 
+//Chama a func pra exib o mapa inicial
 document.addEventListener("DOMContentLoaded", async () => {
   await exibirMapaLocalizacao();
   // Exemplo de evento que altera o mapa para o da corrida
@@ -456,3 +375,82 @@ document.addEventListener("DOMContentLoaded", async () => {
       await detalharCorrida(corridaId);
     });
 });
+
+// Definir a função detalharCorrida
+async function detalharCorrida(corridaId) {
+  try {
+    const corrida = await buscarCorrida(corridaId); // Buscando a corrida com o ID
+
+    if (!corrida) {
+      console.error("Corrida não encontrada.");
+      return;
+    }
+
+    const origem = corrida.origem;
+    const destino = corrida.destino;
+    const preco = parseFloat(corrida.preco).toFixed(2); // Formata o preço com 2 casas decimais
+
+    // Passo 2: Obter coordenadas de origem e destino
+    const origemCoordinates = await geocode(origem);
+    const destinoCoordinates = await geocode(destino);
+
+    if (!origemCoordinates || !destinoCoordinates) {
+      console.error("Erro ao obter coordenadas.");
+      return;
+    }
+
+    // Passo 3: Requisição da rota via API TomTom
+    const routeData = await obterRotaTomTom(
+      origemCoordinates,
+      destinoCoordinates
+    );
+
+    if (routeData) {
+      // Limpar a lista de detalhes da corrida antes de exibir os novos dados
+      const listContainer = document.getElementById("detalhecorridaList");
+      listContainer.innerHTML = ""; // Limpar todos os elementos dentro da div
+
+      // Acessando a distância corretamente dentro de 'summary'
+      const distanceInMeters =
+        routeData.routes[0].legs[0].summary.lengthInMeters;
+
+      // Convertendo a distância para quilômetros
+      const distanceInKm = (distanceInMeters / 1000).toFixed(1);
+
+      // Criando a div para distância
+      const divDistancia = document.createElement("div");
+      divDistancia.textContent = `Distância: ${distanceInKm} Km`;
+      listContainer.appendChild(divDistancia);
+
+      const divPreco = document.createElement("div");
+      divPreco.textContent = `Preço: R$ ${preco}`;
+      listContainer.appendChild(divPreco);
+
+      if (map) {
+        map.remove(); // Remove o mapa existente
+      }
+
+      // Criar um novo mapa com as coordenadas de origem
+      map = L.map("map").setView(origemCoordinates, 12);
+
+      // Adiciona o tileLayer do OpenStreetMap
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      // Desenha a nova rota no mapa
+      const routeCoordinates = routeData.routes[0].legs[0].points.map(
+        (point) => [point.latitude, point.longitude]
+      );
+
+      // Desenhando a rota no mapa
+      L.polyline(routeCoordinates, { color: "blue", weight: 5 }).addTo(map);
+
+      // Ajusta o mapa para os limites da rota
+      map.fitBounds(L.polyline(routeCoordinates).getBounds());
+    }
+  } catch (error) {
+    console.error("Erro geral:", error);
+  }
+}

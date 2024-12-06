@@ -34,10 +34,7 @@ public class TomTomService {
 
         try {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-
             String jsonResponse = response.getBody();
-            System.out.println("Resposta da API: " + jsonResponse);  // Imprimindo o JSON da resposta
-
             return jsonResponse;  // Retornando o JSON como String
 
         } catch (Exception e) {
@@ -45,7 +42,5 @@ public class TomTomService {
             throw new RuntimeException("Erro ao calcular a rota: " + e.getMessage());
         }
     }
-
-
 
 }

@@ -4,7 +4,7 @@ package com.taxi.app.domain.corrida;
 public enum StatusCorrida {
 
         PENDENTE,
-        EM_ANDAMENTO,
+        ANDAMENTO,
         CONCLUIDA,
         CANCELADA;
 

@@ -22,7 +22,7 @@ public class DriverService {
 
     public Page<Driver> getDriversDisponiveis(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size); // Define a página e o tamanho
-        return repository.findByStatus(StatusDriver.DISPONIVEL, pageRequest);
+        return repository.findByStatus(StatusDriver.DISP, pageRequest);
     }
 
     public Object concluir(Long id) {

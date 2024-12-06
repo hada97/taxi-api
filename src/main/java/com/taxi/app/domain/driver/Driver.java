@@ -42,7 +42,7 @@ public class Driver {
     private String placa;
 
     @Enumerated(EnumType.STRING)
-    private StatusDriver status = StatusDriver.DISPONIVEL;
+    private StatusDriver status = StatusDriver.DISP;
 
     public void desativar() {
         this.status = StatusDriver.INATIVO;
