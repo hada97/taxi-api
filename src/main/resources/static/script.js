@@ -454,3 +454,4 @@ async function detalharCorrida(corridaId) {
     console.error("Erro geral:", error);
   }
 }
+

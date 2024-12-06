@@ -43,7 +43,9 @@
                 placeholder="Nome"
                 maxlength="24"
                 required
+                oninput="this.value = this.value.toLowerCase()"
               />
+
               <input type="email" id="emailUser" placeholder="Email" required />
               <input
                 type="text"
@@ -75,7 +77,9 @@
                 placeholder="Nome"
                 maxlength="24"
                 required
+                oninput="this.value = this.value.toLowerCase()"
               />
+
               <input
                 type="email"
                 id="emailMotorista"
@@ -98,6 +102,7 @@
                 pattern="\d{9}"
                 required
               />
+
               <input
                 type="text"
                 id="placaMotorista"
@@ -105,7 +110,9 @@
                 maxlength="7"
                 pattern="^[A-Za-z0-9]{7}$"
                 required
+                style="text-transform: uppercase"
               />
+
               <button type="submit">Cadastrar</button>
             </form>
           </div>
