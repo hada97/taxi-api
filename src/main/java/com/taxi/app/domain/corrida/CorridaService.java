@@ -93,16 +93,19 @@ public class CorridaService {
             int tempoEmSegundos = rootNode.path("routes").path(0).path("summary").path("travelTimeInSeconds").asInt();
 
             System.out.println("Distância: " + distanciaEmMetros + " metros");
-            System.out.println("Tempo de viagem: " + tempoEmSegundos + " segundos");
+            double distanciaEmKilometros = distanciaEmMetros / 1000.0;
+            System.out.println("Distância: " + distanciaEmKilometros + " km");
 
-            double precoCalculado = 5.0 + (distanciaEmMetros * 0.002);
-            System.out.println("Preco: " + precoCalculado);
+            double precoCalculado = (distanciaEmKilometros * 2.0);
+            System.out.println("Preço calculado: " + String.format("%.2f", precoCalculado));
+
             return precoCalculado;
 
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao processar a resposta JSON da API TomTom: " + e.getMessage());
         }
+
     }
 
     public Object concluir(Long id) {

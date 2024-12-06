@@ -1,13 +1,10 @@
 package com.taxi.app.tomApi;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.MediaType;
 
 @Service
 public class TomTomService {
@@ -36,40 +33,15 @@ public class TomTomService {
 
         System.out.println("URL gerada: " + url);  // Imprimindo a URL gerada
 
-        // Criando o corpo da requisição JSON
-        String jsonBody = "{\n" +
-                "  \"legs\": [\n" +
-                "    {\n" +
-                "      \"routeStop\": {\n" +
-                "        \"entryPoints\": [\n" +
-                "          {\n" +
-                "            \"latitude\": " + latOrigem + ",\n" +
-                "            \"longitude\": " + lonOrigem + "\n" +
-                "          },\n" +
-                "          {\n" +
-                "            \"latitude\": " + latDestino + ",\n" +
-                "            \"longitude\": " + lonDestino + "\n" +
-                "          }\n" +
-                "        ]\n" +
-                "      }\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON); // Definindo o tipo de conteúdo como JSON
-
-        // Criando a requisição com corpo e cabeçalhos
-        HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers);
-
         try {
-            // Enviando a requisição POST com o corpo e os cabeçalhos configurados
-            ResponseEntity<String> response = restTemplate.exchange(url, org.springframework.http.HttpMethod.POST, entity, String.class);
+            // Enviando a requisição GET sem corpo, já que a API TomTom espera uma requisição GET
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
             return response.getBody(); // Retorna a resposta da API (geralmente em formato JSON)
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao calcular a rota: " + e.getMessage());
         }
     }
+
 
 }

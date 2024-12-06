@@ -41,7 +41,6 @@ public class GeocodingService {
 
     private double[] parseLatitudeLongitude(String response) {
         try {
-            // Usando Jackson para parsear o JSON da resposta
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response);
             JsonNode position = rootNode.path("results").get(0).path("position");
