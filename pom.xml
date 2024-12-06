@@ -58,10 +58,6 @@
             <version>11.0.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-mysql</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -75,9 +71,9 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version> <!-- Verifique sempre a última versão estável -->
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
         </dependency>
 
         <dependency>
@@ -96,13 +92,6 @@
                 <artifactId>json</artifactId>
                 <version>20210307</version>
             </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
 
     </dependencies>
 
