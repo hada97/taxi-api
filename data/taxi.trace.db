@@ -291,3 +291,19 @@ SET STATUS = 'DISPONIDRIVERS VEL' [22030-232]
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:842)
+2024-12-05 22:51:58.067694-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM DRIVERS CORRIDAS [*]CORRIDAS"; SQL statement:
+SELECT * FROM DRIVERS CORRIDAS CORRIDAS [42000-232]
+2024-12-05 22:51:59.403284-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM DRIVERS CORRIDAS [*]CORRIDAS"; SQL statement:
+SELECT * FROM DRIVERS CORRIDAS CORRIDAS [42000-232]
+2024-12-05 23:09:33.694929-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]CORRIDAS"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+CORRIDAS [42001-232]
+2024-12-05 23:09:34.707068-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]CORRIDAS"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+CORRIDAS [42001-232]
+2024-12-05 23:10:06.286030-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DRIVER" not found; SQL statement:
+UPDATE driver
+SET STATUS = 'DISPONIVEL' [42102-232]

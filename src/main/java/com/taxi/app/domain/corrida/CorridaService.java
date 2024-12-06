@@ -1,7 +1,5 @@
 package com.taxi.app.domain.corrida;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taxi.app.domain.driver.Driver;
 import com.taxi.app.domain.driver.DriverRepository;
 import com.taxi.app.domain.driver.StatusDriver;
@@ -13,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.service.invoker.AbstractNamedValueArgumentResolver;
-
-import javax.sound.midi.SoundbankResource;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -38,14 +33,27 @@ public class CorridaService {
     @Autowired
     private TomTomService tomTomService;
 
+    @Autowired
+    PrecoService precoService;
+
     public DadosDetalharCorridas marcar(DadosSolicitarCorridas dados) {
 
         User user = userRepository.findById(dados.idUser())
                 .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado e isso"));
         Driver driver = escolherDriver();
-        var preco = calcularPreco(dados.origem(), dados.destino());
+
         var origem = dados.origem();
         var destino = dados.destino();
+
+        double[] coordenadasOrigem = geocodingService.geocode(origem);
+        double[] coordenadasDestino = geocodingService.geocode(destino);
+
+        String jsonResponse = tomTomService.calcularRota(coordenadasOrigem[0], coordenadasOrigem[1], coordenadasDestino[0], coordenadasDestino[1]);
+
+        var preco = precoService.calcularPreco(jsonResponse);
+
+        System.out.println(jsonResponse);
+
         Corrida corrida = new Corrida(
                 user,
                 driver,
@@ -77,36 +85,6 @@ public class CorridaService {
         return motoristasDisponiveis.get(r);
     }
 
-
-    private double calcularPreco(String origem, String destino) {
-
-        double[] coordenadasOrigem = geocodingService.geocode(origem);
-        double[] coordenadasDestino = geocodingService.geocode(destino);
-
-        String jsonResponse = tomTomService.calcularRota(coordenadasOrigem[0], coordenadasOrigem[1], coordenadasDestino[0], coordenadasDestino[1]);
-
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(jsonResponse);
-
-            double distanciaEmMetros = rootNode.path("routes").path(0).path("summary").path("lengthInMeters").asDouble();
-            int tempoEmSegundos = rootNode.path("routes").path(0).path("summary").path("travelTimeInSeconds").asInt();
-
-            System.out.println("Distância: " + distanciaEmMetros + " metros");
-            double distanciaEmKilometros = distanciaEmMetros / 1000.0;
-            System.out.println("Distância: " + distanciaEmKilometros + " km");
-
-            double precoCalculado = (distanciaEmKilometros * 2.0);
-            System.out.println("Preço calculado: " + String.format("%.2f", precoCalculado));
-
-            return precoCalculado;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao processar a resposta JSON da API TomTom: " + e.getMessage());
-        }
-
-    }
 
     public Object concluir(Long id) {
         var corridaOptional = corridaRepository.findById(id);

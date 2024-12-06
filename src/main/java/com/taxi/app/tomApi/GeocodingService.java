@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,44 +16,43 @@ public class GeocodingService {
 
     private static final String BASE_URL = "https://api.tomtom.com/search/2/geocode/";
 
-    @Autowired
     private final RestTemplate restTemplate;
 
+    @Autowired
     public GeocodingService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public double[] geocode(String endereco) {
-        String url = UriComponentsBuilder.fromHttpUrl(BASE_URL + endereco + ".json")
-                .queryParam("key", apiKey)
-                .toUriString();
+        String url = BASE_URL + endereco + ".json?key=" + apiKey;
+
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-            // Parse the response and extract the latitude and longitude
-            return parseLatitudeLongitude(response.getBody());
-        } catch (HttpClientErrorException e) {
-            // Handle exceptions, e.g., invalid address or request limit reached
-            throw new RuntimeException("Erro ao buscar o endereço: " + e.getMessage());
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                // Parse da resposta JSON para extrair as coordenadas
+                return parseCoordinates(response.getBody());
+            } else {
+                throw new RuntimeException("Erro na requisição: " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar o endereço: " + e.getMessage(), e);
         }
     }
 
-    private double[] parseLatitudeLongitude(String response) {
+    // Método para extrair latitude e longitude da resposta JSON
+    private double[] parseCoordinates(String response) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response);
             JsonNode position = rootNode.path("results").get(0).path("position");
+
             double latitude = position.path("lat").asDouble();
             double longitude = position.path("lon").asDouble();
+
             return new double[]{latitude, longitude};
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao parsear a resposta JSON: " + e.getMessage());
+            throw new RuntimeException("Erro ao processar a resposta JSON: " + e.getMessage(), e);
         }
-    }
-
-    // Método para geocodificar dois endereços
-    public double[][] geocodeDoisEnderecos(String endereco1, String endereco2) {
-        double[] coordenadas1 = geocode(endereco1);
-        double[] coordenadas2 = geocode(endereco2);
-        return new double[][]{coordenadas1, coordenadas2};
     }
 }

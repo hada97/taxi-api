@@ -296,7 +296,8 @@ document
 
       const origem = corrida.origem;
       const destino = corrida.destino;
-      const preco = corrida.preco; // Preço da corrida vindo do objeto 'corrida'
+      const preco = parseFloat(corrida.preco).toFixed(2); // Formata o preço com 2 casas decimais
+      
 
       // Passo 2: Obter coordenadas de origem e destino
       const origemCoordinates = await geocode(origem);
@@ -321,7 +322,6 @@ document
         // Acessando a distância corretamente dentro de 'summary'
         const distanceInMeters =
           routeData.routes[0].legs[0].summary.lengthInMeters;
-        console.log("Distância em metros:", distanceInMeters); // Exibindo a distância em metros diretamente
 
         // Convertendo a distância para quilômetros
         const distanceInKm = (distanceInMeters / 1000).toFixed(1);
@@ -330,8 +330,7 @@ document
         const divDistancia = document.createElement("div");
         divDistancia.textContent = `Distância: ${distanceInKm} Km`;
         listContainer.appendChild(divDistancia);
-
-        // Criando a div para preço
+        
         const divPreco = document.createElement("div");
         divPreco.textContent = `Preço: R$ ${preco}`;
         listContainer.appendChild(divPreco);

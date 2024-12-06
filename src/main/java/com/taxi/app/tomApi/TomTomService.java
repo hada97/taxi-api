@@ -22,9 +22,8 @@ public class TomTomService {
 
     public String calcularRota(double latOrigem, double lonOrigem, double latDestino, double lonDestino) {
 
-        System.out.println("API Key: " + apiKey);  // Verifique o valor da chave da API
+        System.out.println("API Key: " + apiKey);
 
-        // Construindo a URL para a API de rotas da TomTom, incluindo o sufixo '/json'
         String url = UriComponentsBuilder.fromHttpUrl(ROUTE_API_URL)
                 .pathSegment(latOrigem + "," + lonOrigem + ":" + latDestino + "," + lonDestino)
                 .path("/json")
@@ -34,14 +33,19 @@ public class TomTomService {
         System.out.println("URL gerada: " + url);  // Imprimindo a URL gerada
 
         try {
-            // Enviando a requisição GET sem corpo, já que a API TomTom espera uma requisição GET
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-            return response.getBody(); // Retorna a resposta da API (geralmente em formato JSON)
+
+            String jsonResponse = response.getBody();
+            System.out.println("Resposta da API: " + jsonResponse);  // Imprimindo o JSON da resposta
+
+            return jsonResponse;  // Retornando o JSON como String
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao calcular a rota: " + e.getMessage());
         }
     }
+
 
 
 }
