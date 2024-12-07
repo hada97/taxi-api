@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Função para buscar corrida específica
 async function buscarCorrida(id) {
-  const response = await fetch(`http://localhost:8080/corridas/${id}`);
+  const response = await fetch(`${apiUrlCorridas}/${id}`);
   if (!response.ok) {
     throw new Error("Erro ao buscar a corrida");
   }
