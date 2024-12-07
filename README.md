@@ -1,13 +1,13 @@
-# API para Taxi
-
-## 💻 Sobre o Projeto
+## 💻 Sobre o Projeto Taxi Api
 
 [Veja como ficou em Produção!](https://taxi-api-bahdbgddchbye7hu.canadacentral-01.azurewebsites.net)
+
+[Swagger!](https://taxi-api-bahdbgddchbye7hu.canadacentral-01.azurewebsites.net/swagger-ui/index.html)
 
 ## ⚙️ Funcionalidades
 
 A API oferece as seguintes funcionalidades:
-- **CRUD**: Criação, leitura, atualização e exclusão de registros de médicos.
+- **CRUD**: Criação, leitura, atualização e exclusão de registros de users, driver e corridas.
 
 ## 🛠 Tecnologias Utilizadas
 
@@ -15,7 +15,7 @@ A API REST do projeto foi desenvolvida utilizando as seguintes tecnologias:
 - **Java 17**: Linguagem de programação utilizada.
 - **Spring Boot 3**: Framework para desenvolvimento de aplicações Java.
 - **Maven**: Ferramenta de automação e gerenciamento de dependências.
-- **MySQL**: Banco de dados relacional.
+- **PostgreSQL**: Banco de dados relacional.
 - **Hibernate**: Framework de mapeamento objeto-relacional (ORM).
 - **Flyway**: Ferramenta para versionamento e migração de banco de dados.
 - **Lombok**: Biblioteca para reduzir o boilerplate no código Java.
