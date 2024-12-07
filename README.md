@@ -1,8 +1,6 @@
 ## 💻 Sobre o Projeto Taxi Api
 
-[Veja como ficou em Produção!](https://taxi-api-bahdbgddchbye7hu.canadacentral-01.azurewebsites.net)
-
-[Swagger!](https://taxi-api-bahdbgddchbye7hu.canadacentral-01.azurewebsites.net/swagger-ui/index.html)
+[Veja como ficou em Produção!]()
 
 ## ⚙️ Funcionalidades
 
@@ -28,36 +26,6 @@ A API REST do projeto foi desenvolvida utilizando as seguintes tecnologias:
 
 Este projeto foi desenvolvido sob licenca MIT.
 
-## 🚀 Como Começar
+[Swagger!]()
 
-Para começar a utilizar esta API, siga os passos abaixo:
-
-1. **Clone o repositório**:
-    ```bash
-    git clone https://github.com/hada97/taxi-api
-    ```
-
-2. **Navegue até o diretório do projeto**:
-    ```bash
-    cd taxi-api
-    ```
-
-3. **Compile e execute o projeto**:
-    ```bash
-    mvn clean install
-
-    ```
-
-4. **Acesse a API**: Após iniciar o projeto, a API estará disponível na URL padrão:
-   ```bash
-    http://localhost:8080
-   
-    ```
-
-5. **Acesse o Swagger**:
-   ```bash
-    http://localhost:8080/swagger-ui/index.html
-   
-
-    ```
 
