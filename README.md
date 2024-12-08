@@ -2,7 +2,7 @@
 
 [Veja como ficou em Produção!](https://hada97.github.io/taxi-api-front/)
 
-[Swagger]()
+[Swagger](https://taxi-docker-novo-djcscuapfpcvhkb6.canadacentral-01.azurewebsites.net//swagger-ui/index.html)
 
 ## ⚙️ Funcionalidades
 
