@@ -1,7 +1,6 @@
 /* Corpo da página */
 body {
   font-family: Arial, sans-serif;
-  background-color: #e7e7e7; /* Fundo preto */
   display: flex;
   flex-direction: column; /* Organiza os elementos verticalmente */
   justify-content: center; /* Centraliza o conteúdo na vertical */
@@ -11,21 +10,29 @@ body {
   padding: 0;
 }
 
-.img-container img {
-  max-width: 250px;
-  height: auto;
-  text-align: center;
-  justify-content: center; 
-}
-
+/* Ajustes no container da imagem */
 .img-container {
-  display: flex;
-  justify-content: center; /* Alinha horizontalmente */
-  align-items: center; /* Alinha verticalmente */
+  position: relative;
+  display: flex; /* Habilita o Flexbox */
+  flex-direction: column; /* Alinha os itens na vertical */
+  justify-content: center; /* Centraliza o conteúdo no eixo vertical */
+  align-items: center; /* Centraliza os itens no eixo horizontal */
   width: 100%;
+  height: 120px;
   background-color: #000000;
   max-width: 1500px;
-  height: 150px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+/* Ajustes na imagem do carro */
+.img-container img {
+  position: absolute; /* Para que a imagem possa ser movida */
+  left: 0; /* Inicia no canto esquerdo */
+  transition: left 2s ease-out; /* Animação para mover a imagem */
+  max-width: 160px;
+  height: auto;
+  margin-bottom: 15px;
 }
 
 .top-container {
@@ -53,6 +60,8 @@ body {
   font-size: 1em;
   max-width: 1500px;
   max-height: 30px;
+  border-bottom-left-radius: 20px; /* Arredonda o canto inferior esquerdo */
+  border-bottom-right-radius: 20px;
 }
 
 /* Container principal */
@@ -130,7 +139,7 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgb(255, 255, 255); /* Fundo preto com transparência */
+  background-color: transparent;
   z-index: 100;
 }
 
@@ -151,7 +160,6 @@ button:hover {
 .yellow-text {
   color: #f1c40f;
 }
-
 
 @keyframes spin {
   0% {
@@ -194,7 +202,6 @@ input::placeholder {
   border-radius: 15px; /* Bordas arredondadas */
 }
 
-
 .map-container {
   width: 100%;
   height: 400px; /* A mesma altura para o contêiner do mapa */
@@ -202,4 +209,51 @@ input::placeholder {
   margin-top: 8px;
 }
 
+#slogan {
+  font-size: 22px; /* Tamanho da fonte */
+  font-weight: bold; /* Deixar o texto em negrito */
+  color: #f1c40f; /* Cor do texto (pode ser qualquer cor ou código hexadecimal) */
+  text-align: center; /* Alinhar o texto no centro */
+  margin-top: 10px; /* Espaço acima do slogan */
+  font-family: Arial, sans-serif; /* Tipo de fonte */
+  margin-right: 15px;
+}
 
+.buttons-container {
+  display: flex; /* Usado para alinhar os botões lado a lado */
+  justify-content: right; /* Alinha os botões ao centro */
+  margin-top: -40px;
+  max-height: 60px;
+}
+
+.btn {
+  width: 40px; /* Define a largura do botão */
+  height: 40px; /* Define a altura do botão para ser igual à largura */
+  font-size: 24px; /* Ajusta o tamanho do ícone */
+  cursor: pointer;
+  border: none;
+  border-radius: 50%; /* Torna o botão circular */
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn-light {
+  background-color: #f0f0f0; /* Fundo Branco */
+  color: black;
+}
+
+.btn-dark {
+  background-color: #333; /* Fundo Cinza Escuro */
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.8; /* Efeito de hover */
+}
+
+.btn i {
+  margin: 0; /* Remove margem do ícone */
+}

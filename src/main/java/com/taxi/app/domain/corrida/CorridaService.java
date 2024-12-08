@@ -60,10 +60,10 @@ public class CorridaService {
                 origem,
                 destino,
                 preco,
-                StatusCorrida.PENDENTE
+                StatusCorrida.PENDING
         );
         corridaRepository.save(corrida);
-        corrida.setStatus(StatusCorrida.ANDAMENTO);
+        corrida.setStatus(StatusCorrida.INPROGRESS);
         corridaRepository.save(corrida);
         driver.setStatus(StatusDriver.OCUP);
         driverRepository.save(driver);
@@ -94,7 +94,7 @@ public class CorridaService {
         var corrida = corridaOptional.get();
         var driver = corrida.getDriver();
         driver.setStatus(StatusDriver.DISP);
-        corrida.setStatus(StatusCorrida.CONCLUIDA);
+        corrida.setStatus(StatusCorrida.COMPLETED);
         driverRepository.save(driver);
         corridaRepository.save(corrida);
         return new DadosDetalharCorridas(corrida);

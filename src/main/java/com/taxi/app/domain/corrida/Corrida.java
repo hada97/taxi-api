@@ -35,7 +35,7 @@ public class Corrida {
 
     private Double preco;
 
-    private StatusCorrida status = StatusCorrida.PENDENTE;
+    private StatusCorrida status = StatusCorrida.PENDING;
 
     public Corrida(User user, Driver driver, String origem, String destino, double preco, StatusCorrida status) {
         this.user = user;

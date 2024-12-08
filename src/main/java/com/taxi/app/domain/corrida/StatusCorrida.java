@@ -3,10 +3,10 @@ package com.taxi.app.domain.corrida;
 
 public enum StatusCorrida {
 
-        PENDENTE,
-        ANDAMENTO,
-        CONCLUIDA,
-        CANCELADA;
+        PENDING,
+        INPROGRESS,
+        COMPLETED,
+        CANCELED;
 
         // Adicionando um método para facilitar o controle dos status
         public static StatusCorrida getStatusByString(String status) {
@@ -15,6 +15,6 @@ public enum StatusCorrida {
                                 return s;
                         }
                 }
-                return PENDENTE; // Retorna PENDENTE por padrão
+                return PENDING; // Retorna PENDENTE por padrão
         }
 }
