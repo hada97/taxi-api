@@ -1,5 +1,5 @@
-# Usar a imagem oficial do OpenJDK 17
-FROM openjdk:17-jdk-slim
+# Usar a imagem oficial do OpenJDK 17 baseada no Alpine
+FROM openjdk:17-alpine
 
 # Definir o diretório de trabalho no contêiner
 WORKDIR /app
