@@ -1,5 +1,5 @@
 const baseUrl =
-  "http://localhost:8080";
+  "https://taxi-docker-novo-djcscuapfpcvhkb6.canadacentral-01.azurewebsites.net";
 const apiUrlUsers = `${baseUrl}/users`;
 const apiUrlMotoristas = `${baseUrl}/drivers`;
 const apiUrlCorridas = `${baseUrl}/corridas`;
@@ -218,16 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Função para buscar corrida específica
-async function buscarCorrida(id) {
-  const response = await fetch(`${apiUrlCorridas}/${id}`);
-  if (!response.ok) {
-    throw new Error("Error fetching the ride");
-  }
-  const corrida = await response.json();
-  return corrida;
-}
-
 // Função para geocodificar (obter coordenadas)
 async function geocode(local) {
   const apiKey = "FavFAG60A7v65P6j4vgAxOQ6qYATmwjf";
@@ -263,31 +253,30 @@ async function obterRotaTomTom(origem, destino) {
   return data;
 }
 
+// Obtém a localização do usuário
 async function obterLocalizacaoIP() {
   try {
     // Usando a API com sua chave para obter a localização
     const response = await fetch(
-      "https://geo.ipify.org/api/v2/country,city?apiKey=at_DM6H4u0nhYWvOgyly0sLUlhzJ0Vrt"
+      "https://api.ipregistry.co/?key=ira_pHqksS9vwIlpdnsehzL4D0BRaHbToP4XxrEW"
     );
 
-    if (!response.ok) {
-      throw new Error("Request failed: " + response.status);
-    }
+    if (!response.ok) throw new Error("Request failed: " + response.status);
 
     const data = await response.json();
 
-    if (data.location && data.location.lat && data.location.lng) {
-      return { lat: data.location.lat, lng: data.location.lng };
-    } else {
-      return { lat: -23.66389, lng: -46.53833 };
-    }
+    // Retorna as coordenadas ou valores padrão
+    return {
+      lat: data.location?.latitude || -23.5681,
+      lng: data.location?.longitude || -46.6492,
+    };
   } catch (error) {
     console.error("Error retrieving location:", error);
-    return { lat: -23.66389, lng: -46.53833 };
+    return { lat: -23.5681, lng: -46.6492 }; // coordenadas padrão em caso de erro
   }
 }
 
-//Obtein localizacao do Uuario
+//Criando mapa com localizacao
 async function exibirMapaLocalizacao() {
   const coordenadas = await obterLocalizacaoIP();
   if (!coordenadas) {
@@ -301,7 +290,10 @@ async function exibirMapaLocalizacao() {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-  L.marker(coordenadas).addTo(map).bindPopup("location").openPopup();
+  // Adiciona o pino somente se as coordenadas não forem as padrões (-23.5681, -46.6492)
+  if (coordenadas.lat !== -23.5681 || coordenadas.lng !== -46.6492) {
+    L.marker(coordenadas).addTo(map).bindPopup("Aprox location").openPopup();
+  }
 }
 
 //Chama a func pra exib o mapa inicial
@@ -319,6 +311,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 });
 
+// Função para buscar corrida específica
+async function buscarCorrida(id) {
+  const response = await fetch(`${apiUrlCorridas}/${id}`);
+
+   // Verifica se a resposta é 404 (Not Found)
+   if (response.status === 404) {
+    alert("Ride not found!");
+    return null;  // Retorna null ou outra indicação de que a corrida não foi encontrada
+  }
+  const corrida = await response.json();
+  return corrida;
+}
+
 //Detalhar Corrida
 async function detalharCorrida(corridaId) {
   try {
@@ -326,10 +331,8 @@ async function detalharCorrida(corridaId) {
     const corrida = await buscarCorrida(corridaId);
 
     if (!corrida) {
-      console.error("Corrida não encontrada.");
       return;
     }
-
     const origem = corrida.origem;
     const destino = corrida.destino;
     const preco = parseFloat(corrida.preco).toFixed(2);
