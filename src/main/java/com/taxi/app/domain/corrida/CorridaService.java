@@ -62,10 +62,10 @@ public class CorridaService {
                 preco,
                 StatusCorrida.PENDING
         );
-        corridaRepository.save(corrida);
+
         corrida.setStatus(StatusCorrida.INPROGRESS);
-        corridaRepository.save(corrida);
         driver.setStatus(StatusDriver.OCUP);
+        corridaRepository.save(corrida);
         driverRepository.save(driver);
         return new DadosDetalharCorridas(corrida);
     }
