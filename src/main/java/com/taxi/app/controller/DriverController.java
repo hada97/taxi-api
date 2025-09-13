@@ -3,6 +3,8 @@ package com.taxi.app.controller;
 import com.taxi.app.domain.driver.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +19,8 @@ import java.util.Optional;
 @RequestMapping("/drivers")
 public class DriverController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private DriverRepository driverRepository;
 
@@ -27,6 +31,7 @@ public class DriverController {
     @Cacheable("drivers")
     public ResponseEntity<List<Driver>> getAllUsers() {
         List<Driver> drivers = driverRepository.findAll();
+        logger.info("Lista de usuários: {}", drivers);
         return ResponseEntity.ok(drivers);
     }
 

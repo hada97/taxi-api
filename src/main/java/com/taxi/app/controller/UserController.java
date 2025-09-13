@@ -11,10 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -23,6 +27,7 @@ public class UserController {
     @Cacheable("users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
+        logger.info("Lista de usuários: {}", users);
         return ResponseEntity.ok(users);
     }
 

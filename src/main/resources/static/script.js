@@ -1,5 +1,5 @@
 const baseUrl =
-  "https://taxi-docker-novo-djcscuapfpcvhkb6.canadacentral-01.azurewebsites.net";
+  "http://localhost:8080"; /* Altere para a URL correta da sua API */
 const apiUrlUsers = `${baseUrl}/users`;
 const apiUrlMotoristas = `${baseUrl}/drivers`;
 const apiUrlCorridas = `${baseUrl}/corridas`;

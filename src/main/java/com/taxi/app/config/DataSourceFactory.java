@@ -1,3 +1,4 @@
+/*
 package com.taxi.app.config;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -20,10 +21,10 @@ public class DataSourceFactory {
         config.setDriverClassName("org.h2.Driver");
 
         // Configurações do Hikari
-        config.setMaximumPoolSize(5);
+        config.setMaximumPoolSize(4);
         config.setMinimumIdle(1);
         config.setIdleTimeout(30000);
-        config.setConnectionTimeout(20000);
+        config.setConnectionTimeout(10000);
         config.setMaxLifetime(1800000);
 
         dataSource = new HikariDataSource(config);
@@ -37,3 +38,4 @@ public class DataSourceFactory {
         return dataSource.getConnection();
     }
 }
+*/
