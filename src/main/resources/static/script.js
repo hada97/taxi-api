@@ -508,3 +508,4 @@ async function detalharCorrida(corridaId) {
     toggleLoader(false);
   }
 }
+

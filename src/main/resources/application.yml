@@ -1,14 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:mariadb://localhost:3306/taxi
-    username: root
-    password: sa
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
-      idle-timeout: 30000
-      connection-timeout: 20000
-      max-lifetime: 1800000
 
   jpa:
     hibernate:
