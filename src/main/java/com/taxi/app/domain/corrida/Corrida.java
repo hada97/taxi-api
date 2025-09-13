@@ -44,7 +44,8 @@ public class Corrida {
     @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;
 
-    private StatusCorrida status = StatusCorrida.PENDING;
+    @Enumerated(EnumType.STRING)
+    private StatusCorrida status = StatusCorrida.INPROGRESS;
 
     public Corrida(User user, Driver driver, String origem, String destino, double preco, StatusCorrida status) {
         this.user = user;
