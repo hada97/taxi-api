@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.DecimalMin;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "corridas")
@@ -22,10 +25,12 @@ public class Corrida {
     private Long id;
 
     @ManyToOne
-    private User user;  // Relacionamento com o User
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
-    private Driver driver;  // Relacionamento com o Driver
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
 
     @NotBlank
     private String origem;
@@ -34,6 +39,10 @@ public class Corrida {
     private String destino;
 
     private Double preco;
+
+    @CreationTimestamp
+    @Column(name = "data_criacao", updatable = false)
+    private LocalDateTime dataCriacao;
 
     private StatusCorrida status = StatusCorrida.PENDING;
 
