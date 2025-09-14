@@ -7,6 +7,7 @@ import com.taxi.app.domain.driver.StatusDriver;
 import com.taxi.app.domain.driver.DriverRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -18,7 +19,7 @@ public class PrecoService {
         this.driverRepository = driverRepository;
     }
 
-    public double calcularPreco(String jsonResponse) {
+    public BigDecimal calcularPreco(String jsonResponse) {
         try {
             double dinamico = calcularMultiplicadorDinamico();
 
@@ -34,7 +35,7 @@ public class PrecoService {
             double distanciaEmKilometros = distanciaEmMetros / 1000.0;
             System.out.println("Distância: " + distanciaEmKilometros + " km");
 
-            double precoCalculado = (5 + distanciaEmKilometros * 2.0 * dinamico);
+            BigDecimal precoCalculado = BigDecimal.valueOf((5 + distanciaEmKilometros * 2.0 * dinamico));
             System.out.println("Preço calculado: " + String.format("%.2f", precoCalculado));
 
             return precoCalculado;

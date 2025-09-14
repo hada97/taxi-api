@@ -2,13 +2,15 @@
 package com.taxi.app.domain.corrida;
 
 
+import java.math.BigDecimal;
+
 public record DadosDetalharCorridas(
         Long id,
         Long idUser,
         Long idDriver,
         String origem,
         String destino,
-        Double preco,
+        BigDecimal preco,
         StatusCorrida status
 ) {
 

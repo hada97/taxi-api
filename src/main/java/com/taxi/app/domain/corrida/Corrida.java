@@ -8,6 +8,7 @@ import jakarta.validation.constraints.DecimalMin;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -38,7 +39,8 @@ public class Corrida {
     @NotBlank
     private String destino;
 
-    private Double preco;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal preco;  // duas casas decimais
 
     @CreationTimestamp
     @Column(name = "data_criacao", updatable = false)
@@ -47,7 +49,7 @@ public class Corrida {
     @Enumerated(EnumType.STRING)
     private StatusCorrida status = StatusCorrida.INPROGRESS;
 
-    public Corrida(User user, Driver driver, String origem, String destino, double preco, StatusCorrida status) {
+    public Corrida(User user, Driver driver, String origem, String destino, BigDecimal preco, StatusCorrida status) {
         this.user = user;
         this.driver = driver;
         this.origem = origem;
