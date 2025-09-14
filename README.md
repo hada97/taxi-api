@@ -1,8 +1,8 @@
 ## 💻 Sobre o Projeto Taxi Api
 
-[Veja como ficou em Produção!](https://taxi-docker-novo-djcscuapfpcvhkb6.canadacentral-01.azurewebsites.net)
+[Veja como ficou em Produção!](https://taxi-doc-fbcybjaqesa0b7by.canadacentral-01.azurewebsites.net/)
 
-[Swagger](https://taxi-docker-novo-djcscuapfpcvhkb6.canadacentral-01.azurewebsites.net//swagger-ui/index.html)
+[Swagger](https://taxi-doc-fbcybjaqesa0b7by.canadacentral-01.azurewebsites.net/swagger-ui/index.html#/user-controller/createUser)
 
 ## ⚙️ Funcionalidades
 
