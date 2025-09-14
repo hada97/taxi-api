@@ -9,6 +9,7 @@ import com.taxi.app.tomApi.GeocodingService;
 import com.taxi.app.tomApi.TomTomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
@@ -36,10 +37,11 @@ public class CorridaService {
     @Autowired
     PrecoService precoService;
 
-    public DadosDetalharCorridas marcar(DadosSolicitarCorridas dados) {
+    public DadosDetalharCorridas criarCorrida(DadosSolicitarCorridas dados) {
 
         User user = userRepository.findById(dados.idUser())
                 .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado e isso"));
+
         Driver driver = escolherDriver();
 
         var origem = dados.origem();
@@ -51,8 +53,6 @@ public class CorridaService {
         String jsonResponse = tomTomService.calcularRota(coordenadasOrigem[0], coordenadasOrigem[1], coordenadasDestino[0], coordenadasDestino[1]);
 
         var preco = precoService.calcularPreco(jsonResponse);
-
-        System.out.println(jsonResponse);
 
         Corrida corrida = new Corrida(
                 user,
@@ -70,23 +70,23 @@ public class CorridaService {
         return new DadosDetalharCorridas(corrida);
     }
 
-
     private Driver escolherDriver() {
         List<Driver> motoristasDisponiveis = driverRepository.findByStatus(StatusDriver.DISP);
 
-        if (motoristasDisponiveis.size() > 10) {
-            motoristasDisponiveis = motoristasDisponiveis.subList(0, 10);}
-
         if (motoristasDisponiveis.isEmpty()) {
-            throw new RuntimeException("Não há motoristas disponíveis no momento.");}
-
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
+                    "Nenhum motorista disponível no momento.");
+        }
+        if (motoristasDisponiveis.size() > 10) {
+            motoristasDisponiveis = motoristasDisponiveis.subList(0, 10);
+        }
         Random random = new Random();
         int r = random.nextInt(motoristasDisponiveis.size());
         return motoristasDisponiveis.get(r);
     }
 
 
-    public Object concluir(Long id) {
+    public Object encerrarCorrida(Long id) {
         var corridaOptional = corridaRepository.findById(id);
         if (corridaOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Corrida não encontrada.");

@@ -66,16 +66,16 @@ public class CorridaController {
     @PostMapping
     @Transactional
     @CacheEvict(value = {"corridas", "corridas in progress", "corridas concluidas", "drivers", "drivers disp"}, allEntries = true)
-    public ResponseEntity marcar(@RequestBody @Valid DadosSolicitarCorridas dados) {
-        var dto = service.marcar(dados);
+    public ResponseEntity criarCorrida(@RequestBody @Valid DadosSolicitarCorridas dados) {
+        var dto = service.criarCorrida(dados);
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping("/concluir/{id}")
     @Transactional
     @CacheEvict(value = {"corridas", "corridas in progress", "corridas concluidas", "drivers", "drivers disp"}, allEntries = true)
-    public ResponseEntity concluir(@PathVariable Long id) {
-        var dto = service.concluir(id);
+    public ResponseEntity encerrarCorrida(@PathVariable Long id) {
+        var dto = service.encerrarCorrida(id);
         return ResponseEntity.ok(dto);
     }
 

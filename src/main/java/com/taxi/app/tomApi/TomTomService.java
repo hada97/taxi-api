@@ -22,8 +22,6 @@ public class TomTomService {
 
     public String calcularRota(double latOrigem, double lonOrigem, double latDestino, double lonDestino) {
 
-        System.out.println("API Key: " + apiKey);
-
         String url = UriComponentsBuilder.fromHttpUrl(ROUTE_API_URL)
                 .pathSegment(latOrigem + "," + lonOrigem + ":" + latDestino + "," + lonDestino)
                 .path("/json")
@@ -34,8 +32,7 @@ public class TomTomService {
 
         try {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-            String jsonResponse = response.getBody();
-            return jsonResponse;  // Retornando o JSON como String
+            return response.getBody();  // Retornando o JSON como String
 
         } catch (Exception e) {
             e.printStackTrace();
