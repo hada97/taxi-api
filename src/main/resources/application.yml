@@ -17,3 +17,21 @@ spring:
 tomtom:
   api:
     key: FavFAG60A7v65P6j4vgAxOQ6qYATmwjf
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+
+info:
+  app:
+    name: Taxi API
+    description: API de gerenciamento de aplicativo de táxi
+    version: 1.0.0

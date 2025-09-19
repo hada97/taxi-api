@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 3s  # a cada 5 segundos o Prometheus coleta métricas
+
+scrape_configs:
+  - job_name: 'api-taxi'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8080']  # sua API Spring Boot rodando localmente
